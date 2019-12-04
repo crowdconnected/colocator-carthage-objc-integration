@@ -1,0 +1,348 @@
+syntax = "proto2"; //upgrade to proto3
+option java_package = "net.crowdconnected.core.messaging";
+option java_outer_classname = "ClientMessagingProtocol";
+package Messaging;
+//Top level wrapper for message from Server to Device
+message ServerMessage {
+    optional GlobalSettings globalSettings = 1;
+    optional IosSettings iosSettings = 2;
+    optional AndroidSettings androidSettings = 3;
+    optional string clientKey = 4; //for server use only
+    optional bytes deviceId = 5; //for server use only
+    optional uint64 sentTimestamp = 6; //for server use only
+    optional bytes messageIdentifier = 7;
+    enum StopType {
+        STOP = 1;
+        TERMINATE = 2;
+    }
+    optional StopType stop = 8;
+    repeated ClientLocationResponse locationResponses = 9;
+}
+//Top level wrapper for iOS specific messages
+message IosSettings {
+    optional IosGeoSettings geoSettings = 1;
+    optional IosBeaconSettings beaconSettings = 2;
+    optional uint64 backgroundExtension = 3; //Time in milliseconds to extend background operation
+    optional IosInertialSettings inertialSettings = 4;
+}
+message IosBeaconSettings {
+    optional BeaconMonitoring monitoring = 1; //regions to monitor for
+    optional BeaconRanging foregroundRanging = 2; //ranging to be used when app has focus
+    optional BeaconRanging backgroundRanging = 3; //ranging to be used when app is in background
+}
+//iOS Geo Settings
+message IosStandardGeoSettings {
+    enum Activity {
+        OTHER = 0;
+        AUTO = 1;
+        FITNESS = 2;
+        NAVIGATION = 3;
+    }
+    optional uint64 maxRunTime = 1; //The max time in milliseconds to activate updates. If the app is still running after this time, stop updates.
+    optional uint64 minOffTime = 2; //minimum off period - must work across multiple wake up / kills. Don't start updates again until at least this time has elapsed.
+    optional sint32 desiredAccuracy = 3; // Integer required accuracy
+    optional sint32 distanceFilter = 4; // Integer min distance filter
+    optional bool pausesUpdates = 5; // Pause updates automatically flag
+    optional Activity activityType = 6; // One of the four activity types
+}
+message IosGeoSettings {
+    optional bool significantUpates = 1; //if true enable significant updates permanently. Otherwise switch off
+    optional IosStandardGeoSettings foregroundGeo = 2; //if present, use these standard settings while the app has user focus
+    optional IosStandardGeoSettings backgroundGeo = 3; //if present, use these standard settings while the app is running in background
+    repeated IosCircularGeoFence iosCircularGeoFences = 4;
+}
+message IosCircularGeoFence {
+    optional double latitude = 1;
+    optional double longitude = 2;
+    optional double radius = 3;
+}
+message IosInertialSettings {
+    optional bool enabled = 1;
+    optional uint32 interval = 2;
+}
+//Top level wrapper for Android specific messages
+message AndroidSettings {
+    optional AndroidGeoSettings geoSettings = 1;
+    optional AndroidBeaconSettings beaconSettings = 2;
+    optional AndroidWifiSettings wifiSettings = 3;
+    optional bool foregroundService = 4;
+    optional AndroidInertialSettings inertialSettings = 5;
+}
+//Android Geo Settings
+message AndroidGeoSettings {
+    enum Priority {
+        HIGH_ACCURACY = 0; //Android PRIORITY_HIGH_ACCURACY = 100
+        BALANCED_POWER_ACCURACY = 1; //Android BALANCED_POWER_ACCURACY = 102;
+        LOW_POWER = 2; //Android PRIORITY_LOW_POWER = 104;
+        NO_POWER = 3; //Android PRIORITY_NO_POWER = 105;
+    }
+    optional uint32 minDistance = 1; // the min distance to travel before another update
+    optional uint64 minTime = 2; // the minimum time before another update
+    optional Priority priority = 3;
+    optional uint64 batchTime = 4;
+}
+//Android Beacon Settings
+message AndroidBeaconSettings {
+    repeated BeaconAdvertisement advertisements = 1; //list of beacons to advertise
+    optional BeaconRanging ranging = 3; //scan and report rssi for these beacon families, on this cycle, with this filter
+}
+//Android Wifi Settings
+message AndroidWifiSettings {
+    optional bool enabled = 1;
+    optional uint64 interval = 2;
+    optional string state = 3;
+    optional bool rttEnabled = 4;
+    optional uint64 rttInterval = 5;
+}
+//Cross platform Beacon / Bluetooth messages
+message BeaconRegion {
+    optional string UUID = 1;
+    optional uint32 major = 2;
+    optional uint32 minor = 3;
+}
+message BeaconAdvertisement {
+    enum Frequency {
+        LOW_FREQUENCY = 0; //Equivalent to Android ADVERTISE_MODE_LOW_POWER = 1000ms
+        BALANCED_FREQUENCY = 1; //Equivalent to Android ADVERTISE_MODE_BALANCED =
+        HIGH_FREQUENCY = 2; //Equivalent to Android ADVERTISE_MODE_LOW_LATENCY = 100ms
+    }
+    enum Power {
+        ULTRALOW_POWER = 0; //Equivalent to Android ADVERTISE_TX_POWER_ULTRA_LOW
+        LOW_POWER = 1; //Equivalent to Android ADVERTISE_TX_POWER_LOW
+        MEDIUM_POWER = 2; //Equivalent to Android ADVERTISE_TX_POWER_MEDIUM
+        HIGH_POWER = 3; //Equivalent to Android ADVERTISE_TX_POWER_HIGH
+    }
+    optional BeaconRegion identifier = 1; //must have UUID and major and minor. If they are missing, set to zero
+    optional Frequency frequency = 2; // the advertising period, if controllable
+    optional Power power = 3;
+    optional uint64 onPeriod = 4; //how long to cycle on for in milliseconds
+    optional uint64 offPeriod = 5; //how long to cycle off for in milliseconds
+    optional uint64 startTime = 6; //the start time of the advertisment, add on+off period until you get a timestamp in the future
+    optional bool repeat = 7; //whether or not to repeat the on / off cycle permanently. Otherwise one shot for onperiod.
+    optional EID eid = 8;
+}
+message EID {
+    optional bytes secret = 1;
+    optional uint32 k = 2;
+    optional uint32 clockOffset = 3;
+}
+message BeaconMonitoring {
+    repeated BeaconRegion regions = 1; //regions to monitor for (continually)
+}
+message BeaconRanging {
+    optional uint64 maxRunTime = 1; //The max time in milliseconds to range for. If the app is still running after this time, stop ranging.
+    optional uint64 minOffTime = 2; //minimum off period - must work across multiple wake up / kills. Don't start ranging again until at least this time has elapsed.
+    repeated BeaconRegion regions = 3; //regions to be ranged. If none present then anything available is reported
+    optional BeaconFilter filter = 4; //optional - aggregation and filter to be applied to a batch of observations before sending.
+    optional bool nonBeaconScan = 5;
+    optional bool eddystoneScan = 6;
+    optional bool iBeaconScan = 7;
+}
+message BeaconFilter {
+    optional uint64 windowSize = 1; //Window duration in milliseconds. Observations of unique beacon are averaged over the window
+    optional uint32 maxObservations = 2; //The maximum number of rssi observations to send in any one window. Highest rssi takes precedent.
+    repeated BeaconRegion excludeRegions = 3; //don't report these specific beacon families
+}
+// Android Inertial Settings
+message AndroidInertialSettings {
+    enum Frequency {
+        FASTEST = 1;
+        GAME = 2;
+        UI = 3;
+        NORMAL = 4;
+    }
+    optional bool enabled = 1;
+    optional Frequency frequency = 2;
+}
+//Cross Platform System Messages
+message GlobalSettings {
+    optional bytes id = 1; //no longer send string representation - have to parse the bytes
+    optional uint64 radioSilence = 3; //the time in milliseconds to ensure ensure radio silence between batch sends
+}
+message ClientLocationRequest {
+    enum Type {
+        SINGLE = 1;
+        ONGOING = 2;
+        STOP = 3;
+    }
+    optional Type type = 1;
+}
+message ClientLocationResponse {
+    optional double latitude = 1;
+    optional double longitude = 2;
+    optional double error = 3;
+    optional double headingOffset = 4;
+    optional uint64 timestamp = 5;
+}
+//Client Messages
+message ClientMessage {
+    repeated LocationMessage locationMessage = 1;
+    repeated Bluetooth bluetoothMessage = 2;
+    repeated IBeacon ibeaconMessage = 3;
+    repeated WifiMessage wifiMessage = 4;
+    optional MarkerMessage marker = 5;
+    repeated AliasMessage alias = 6;
+    optional Capability capability = 7;
+    optional Battery battery = 8;
+    optional string clientKey = 9; //for server use only
+    optional bytes deviceId = 10; //for server use only
+    optional uint64 receivedTimestamp = 11; //for server use only
+    optional uint64 sentTime = 12;
+    optional IosCapability iosCapability = 13;
+    optional bytes messageIdentifier = 14;
+    repeated UserInputLocationMessage userInputLocationMessage = 15;
+    optional bool surveryMode = 16;
+    repeated WifiRTTMessage wifiRttMessage = 17;
+    repeated EddystoneBeacon eddystonemessage = 18;
+    repeated Step step = 19;
+    optional ClientLocationRequest locationRequest = 20;
+    repeated CircularGeoFenceEvent circularGeoFenceEvents = 21;
+}
+message CircularGeoFenceEvent {
+    enum Type {
+        ENTRY = 1;
+        EXIT = 2;
+    }
+    optional double latitude = 1;
+    optional double longitude = 2;
+    optional double radius = 3;
+    optional Type type = 4;
+}
+message UserInputLocationMessage {
+    optional double latitude = 1;
+    optional double longitude = 2;
+    optional double altitude = 3;
+    optional double x = 4;
+    optional double y = 5;
+    optional double z = 6;
+    optional uint64 timestamp = 7;
+}
+message LocationMessage {
+    //field types and numbers are backward compatible
+    optional double latitude = 1;
+    optional double longitude = 2;
+    optional double altitude = 5;
+    optional double horizontalAccuracy = 3;
+    optional double verticalAccuracy = 6;
+    optional double course = 7; //iOS has course, Android has bearing. Are they the same?
+    optional double speed = 8;
+    optional uint64 timestamp = 4;
+    optional bool isMockLocation = 9;
+}
+message Bluetooth {
+    //field types and numbers are backward compatible
+    //only used for reporting non iBeacon BLE scans
+    optional bytes identifier = 1;
+    optional bytes mac = 5;
+    optional sint32 rssi = 2;
+    optional sint32 tx = 3;
+    optional uint64 timestamp = 4;
+    optional uint32 averagingWindow = 8;
+    optional uint32 amountAveraged = 6;
+    repeated bytes scanData = 7;
+}
+message IBeacon {
+    //field types and numbers are backward compatible
+    // used by iOS and Android for reporting beacon observations
+    optional bytes uuid = 1;
+    optional uint32 major = 2;
+    optional uint32 minor = 3;
+    optional sint32 rssi = 4;
+    optional uint32 proximity = 5;
+    optional double accuracy = 6;
+    optional uint64 timestamp = 7;
+    optional uint64 averagingWindow = 8;
+    optional uint32 amountAveraged = 9;
+}
+message EddystoneBeacon {
+    //field types and numbers are backward compatible
+    optional bytes eid = 1;
+    optional bytes mac = 2;
+    optional sint32 tx = 3;
+    optional sint32 rssi = 4;
+    optional uint64 timestamp = 5;
+    optional uint64 averagingWindow = 6;
+    optional uint32 amountAveraged = 7;
+}
+message WifiMessage {
+    enum ChannelWidth {
+        CHANNEL_WIDTH_160MHZ = 1;
+        CHANNEL_WIDTH_20MHZ = 2;
+        CHANNEL_WIDTH_40MHZ = 3;
+        CHANNEL_WIDTH_80MHZ = 4;
+        CHANNEL_WIDTH_80MHZ_PLUS_MHZ = 5;
+    }
+    optional string bssid = 1;
+    optional string ssid = 2;
+    optional sint32 rssi = 3;
+    optional uint32 frequency = 4;
+    optional uint64 timestamp = 5;
+    optional uint32 centerFreq0 = 6;
+    optional uint32 centerFreq1 = 7;
+    optional ChannelWidth channelWidth = 8;
+    optional bool rttResponder = 9;
+}
+message WifiRTTMessage {
+    optional WifiMessage accessPoint = 1;
+    optional int32 distance = 2;
+    optional int32 distanceStdDev = 3;
+    optional uint32 attemptedMeasurements = 4;
+    optional uint32 successfulMeasurements = 5;
+}
+message MarkerMessage {
+    optional string data = 1;
+    optional uint64 time = 2;
+}
+message Capability {
+    //need to amend this if we're going to properly implement cross platform
+    optional bool hasBle = 1;
+    optional bool canAdvertise = 2;
+    optional bool isBTOn = 3;
+    optional bool hasLocationPermission = 4;
+    optional bool isGPSOn = 5;
+    optional bool foregroundService = 6;
+    optional uint64 expiryTime = 7;
+    optional bool rtt = 8;
+}
+message IosCapability {
+    enum LocationAuthStatus {
+        NOT_DETERMINED = 1;
+        RESTRICTED = 2;
+        DENIED = 3;
+        ALWAYS = 4;
+        IN_USE = 5;
+    }
+    enum BluetoothHardware {
+        OFF = 1;
+        ON = 2;
+        RESETTING = 3;
+        UNAUTHORIZED = 4;
+        UNKNOWN = 5;
+        UNSUPPORTED = 6;
+    }
+    enum BatteryState {
+        NOT_DEFINED = 1;
+        UNPLUGGED = 2;
+        CHARGING = 3;
+        FULL = 4;
+    }
+    optional bool locationServices = 1;
+    optional LocationAuthStatus locationAuthStatus = 2;
+    optional BluetoothHardware bluetoothHardware = 3;
+    optional BatteryState batteryState = 4;
+    optional bool lowPowerMode = 5;
+}
+message AliasMessage {
+    optional string key = 1;
+    optional string value = 2;
+}
+message Battery {
+    optional uint32 battery = 1; //as a percentage
+}
+message Acknowledgement {
+    optional bytes messageIdentifier = 1;
+}
+message Step {
+    optional uint64 timestamp = 1;
+    optional double angle = 2;
+}

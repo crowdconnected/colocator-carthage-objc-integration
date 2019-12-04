@@ -5,6 +5,313 @@
 	<key>logFormatVersion</key>
 	<integer>10</integer>
 	<key>logs</key>
-	<dict/>
+	<dict>
+		<key>0F5F2007-0727-4B31-9215-274D7CE3DF2D</key>
+		<dict>
+			<key>className</key>
+			<string>IDEActivityLogSection</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>0F5F2007-0727-4B31-9215-274D7CE3DF2D.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>E</string>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>ColocatorObjcIntegration project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>ColocatorObjcIntegration</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Build ColocatorObjcIntegration</string>
+			<key>timeStartedRecording</key>
+			<real>597072762.91627002</real>
+			<key>timeStoppedRecording</key>
+			<real>597072762.95928597</real>
+			<key>title</key>
+			<string>Build ColocatorObjcIntegration</string>
+			<key>uniqueIdentifier</key>
+			<string>0F5F2007-0727-4B31-9215-274D7CE3DF2D</string>
+		</dict>
+		<key>12B1E528-94A0-4BDF-9F3B-448A55BF4551</key>
+		<dict>
+			<key>className</key>
+			<string>IDEActivityLogSection</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>12B1E528-94A0-4BDF-9F3B-448A55BF4551.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>E</string>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>ColocatorObjcIntegration project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>ColocatorObjcIntegration</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Build ColocatorObjcIntegration</string>
+			<key>timeStartedRecording</key>
+			<real>597072752.87459898</real>
+			<key>timeStoppedRecording</key>
+			<real>597072753.149351</real>
+			<key>title</key>
+			<string>Build ColocatorObjcIntegration</string>
+			<key>uniqueIdentifier</key>
+			<string>12B1E528-94A0-4BDF-9F3B-448A55BF4551</string>
+		</dict>
+		<key>30BEEC5C-F264-421D-A133-BFAE89C62BAD</key>
+		<dict>
+			<key>className</key>
+			<string>IDEActivityLogSection</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>30BEEC5C-F264-421D-A133-BFAE89C62BAD.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>E</string>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>ColocatorObjcIntegration project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>ColocatorObjcIntegration</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Build ColocatorObjcIntegration</string>
+			<key>timeStartedRecording</key>
+			<real>597072761.12973106</real>
+			<key>timeStoppedRecording</key>
+			<real>597072761.30991995</real>
+			<key>title</key>
+			<string>Build ColocatorObjcIntegration</string>
+			<key>uniqueIdentifier</key>
+			<string>30BEEC5C-F264-421D-A133-BFAE89C62BAD</string>
+		</dict>
+		<key>3A87EE16-1466-4812-A106-A3086577A5F3</key>
+		<dict>
+			<key>className</key>
+			<string>IDEActivityLogSection</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>3A87EE16-1466-4812-A106-A3086577A5F3.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>W</string>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>ColocatorObjcIntegration project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>ColocatorObjcIntegration</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Build ColocatorObjcIntegration</string>
+			<key>timeStartedRecording</key>
+			<real>597072811.26979399</real>
+			<key>timeStoppedRecording</key>
+			<real>597072818.38064802</real>
+			<key>title</key>
+			<string>Build ColocatorObjcIntegration</string>
+			<key>uniqueIdentifier</key>
+			<string>3A87EE16-1466-4812-A106-A3086577A5F3</string>
+		</dict>
+		<key>4D1D2686-AF3A-485B-ABEB-791A80D39B18</key>
+		<dict>
+			<key>className</key>
+			<string>IDEActivityLogSection</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>4D1D2686-AF3A-485B-ABEB-791A80D39B18.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>W</string>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>ColocatorObjcIntegration project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>ColocatorObjcIntegration</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Build ColocatorObjcIntegration</string>
+			<key>timeStartedRecording</key>
+			<real>597079744.06357396</real>
+			<key>timeStoppedRecording</key>
+			<real>597079746.36999905</real>
+			<key>title</key>
+			<string>Build ColocatorObjcIntegration</string>
+			<key>uniqueIdentifier</key>
+			<string>4D1D2686-AF3A-485B-ABEB-791A80D39B18</string>
+		</dict>
+		<key>70CD00D8-34A4-4896-8073-7741F8A35A5A</key>
+		<dict>
+			<key>className</key>
+			<string>IDEActivityLogSection</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>70CD00D8-34A4-4896-8073-7741F8A35A5A.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>E</string>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>ColocatorObjcIntegration project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>ColocatorObjcIntegration</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Build ColocatorObjcIntegration</string>
+			<key>timeStartedRecording</key>
+			<real>597072555.53945696</real>
+			<key>timeStoppedRecording</key>
+			<real>597072555.79004705</real>
+			<key>title</key>
+			<string>Build ColocatorObjcIntegration</string>
+			<key>uniqueIdentifier</key>
+			<string>70CD00D8-34A4-4896-8073-7741F8A35A5A</string>
+		</dict>
+		<key>8C100CCC-5346-4E54-845C-8DD34961009F</key>
+		<dict>
+			<key>className</key>
+			<string>IDEActivityLogSection</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>8C100CCC-5346-4E54-845C-8DD34961009F.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>E</string>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>ColocatorObjcIntegration project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>ColocatorObjcIntegration</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Build ColocatorObjcIntegration</string>
+			<key>timeStartedRecording</key>
+			<real>597072776.86410403</real>
+			<key>timeStoppedRecording</key>
+			<real>597072777.99115598</real>
+			<key>title</key>
+			<string>Build ColocatorObjcIntegration</string>
+			<key>uniqueIdentifier</key>
+			<string>8C100CCC-5346-4E54-845C-8DD34961009F</string>
+		</dict>
+		<key>F7C7B1DC-DF3B-4364-8A69-3DB46BC6DDE5</key>
+		<dict>
+			<key>className</key>
+			<string>IDEActivityLogSection</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>F7C7B1DC-DF3B-4364-8A69-3DB46BC6DDE5.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>W</string>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>ColocatorObjcIntegration project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>ColocatorObjcIntegration</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Build ColocatorObjcIntegration</string>
+			<key>timeStartedRecording</key>
+			<real>597072831.16472805</real>
+			<key>timeStoppedRecording</key>
+			<real>597072832.88472795</real>
+			<key>title</key>
+			<string>Build ColocatorObjcIntegration</string>
+			<key>uniqueIdentifier</key>
+			<string>F7C7B1DC-DF3B-4364-8A69-3DB46BC6DDE5</string>
+		</dict>
+		<key>F9AD86E4-9B9E-4974-AFD9-F6DEDEC83A2E</key>
+		<dict>
+			<key>className</key>
+			<string>IDEActivityLogSection</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>F9AD86E4-9B9E-4974-AFD9-F6DEDEC83A2E.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>E</string>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>ColocatorObjcIntegration project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>ColocatorObjcIntegration</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Build ColocatorObjcIntegration</string>
+			<key>timeStartedRecording</key>
+			<real>597072728.64689803</real>
+			<key>timeStoppedRecording</key>
+			<real>597072728.78715801</real>
+			<key>title</key>
+			<string>Build ColocatorObjcIntegration</string>
+			<key>uniqueIdentifier</key>
+			<string>F9AD86E4-9B9E-4974-AFD9-F6DEDEC83A2E</string>
+		</dict>
+	</dict>
 </dict>
 </plist>

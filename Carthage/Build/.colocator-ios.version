@@ -1,0 +1,10 @@
+{
+  "commitish" : "2.4.1",
+  "iOS" : [
+    {
+      "name" : "CCLocation",
+      "hash" : "f4d456054e2bb6e14c6e6ce673936a7f14fe7b22519b58b5192c5e9c67842f37",
+      "swiftToolchainVersion" : "5.1 (swiftlang-1100.0.270.13 clang-1100.0.33.7)"
+    }
+  ]
+}

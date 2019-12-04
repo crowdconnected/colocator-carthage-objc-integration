@@ -1,0 +1,10 @@
+{
+  "commitish" : "1.6.0",
+  "iOS" : [
+    {
+      "name" : "SwiftProtobuf",
+      "hash" : "0991d444508c6464891843c3a4767dbfa3f0ff9a276aedb1c54f1a8ed0aedee0",
+      "swiftToolchainVersion" : "5.1 (swiftlang-1100.0.270.13 clang-1100.0.33.7)"
+    }
+  ]
+}
