@@ -23,7 +23,7 @@
     
     CCLocation.sharedInstance.delegate = self;
     
-    [CCLocation.sharedInstance startWithApiKey:@"iosrtest" urlString:NULL];
+    [CCLocation.sharedInstance startWithApiKey:@"CC_APP_KEY" urlString:NULL];
     
     double delayInSeconds = 3.0;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));

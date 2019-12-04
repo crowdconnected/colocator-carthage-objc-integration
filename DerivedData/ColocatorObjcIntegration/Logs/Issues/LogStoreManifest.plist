@@ -34,7 +34,7 @@
 			<key>uniqueIdentifier</key>
 			<string>0AE1EE54-4C58-4C72-8E39-8D73A5ADCBA8</string>
 		</dict>
-		<key>53654903-B4C7-42C1-8546-5A96ADCA2B2E</key>
+		<key>119A5281-A4C8-4D64-8C4A-C7628D99CF85</key>
 		<dict>
 			<key>className</key>
 			<string>IDEActivityLogMajorGroupSection</string>
@@ -43,7 +43,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.target.product-type.application</string>
 			<key>fileName</key>
-			<string>53654903-B4C7-42C1-8546-5A96ADCA2B2E.xcactivitylog</string>
+			<string>119A5281-A4C8-4D64-8C4A-C7628D99CF85.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -54,13 +54,13 @@
 			<key>signature</key>
 			<string>ColocatorObjcIntegration-cdaozlapakdpatfvyymlrjkdnywl</string>
 			<key>timeStartedRecording</key>
-			<real>597079744.14576006</real>
+			<real>597151931.52712095</real>
 			<key>timeStoppedRecording</key>
-			<real>597079746.36434305</real>
+			<real>597151933.88717699</real>
 			<key>title</key>
 			<string>Build target ColocatorObjcIntegration</string>
 			<key>uniqueIdentifier</key>
-			<string>53654903-B4C7-42C1-8546-5A96ADCA2B2E</string>
+			<string>119A5281-A4C8-4D64-8C4A-C7628D99CF85</string>
 		</dict>
 	</dict>
 	<key>preserveOldLogs</key>

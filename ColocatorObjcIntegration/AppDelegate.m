@@ -8,6 +8,8 @@
 
 #import "AppDelegate.h"
 
+#import <CCLocation/CCLocation.h>
+
 @interface AppDelegate ()
 
 @end
@@ -17,9 +19,37 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [CCLocation.sharedInstance startWithApiKey:@"CC_APP_KEY" urlString:@"colocator.net:443/socket"];
+    
+    [[UIApplication sharedApplication] registerForRemoteNotifications];
+    NSDictionary *params = [[launchOptions objectForKey:@"UIApplicationLaunchOptionsRemoteNotificationKey"] objectForKey:@"appsInfo"];
+    if (params) {
+      //Use params here
+    }
+    
     return YES;
 }
 
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+  NSString * deviceTokenString = [[[[deviceToken description]
+    stringByReplacingOccurrencesOfString: @"<" withString: @""]
+   stringByReplacingOccurrencesOfString: @">" withString: @""]
+  stringByReplacingOccurrencesOfString: @" " withString: @""];
+  [CCLocation.sharedInstance addAliasWithKey:@"apns_user_id" value:deviceTokenString];
+  NSLog(@"Sent device token %@", deviceTokenString);
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+  NSLog(@"Failed to register for Remote Notidications %@", error);
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+  NSDictionary *apsInfo = [userInfo objectForKey:@"apsInfo"];
+  NSString *source = [apsInfo objectForKey:@"source"];
+  if ([source isEqualToString:@"colcoator"]) {
+    [CCLocation.sharedInstance receivedSilentNotificationWithUserInfo:userInfo clientKey:@"CC_APP_KEY" completion:^(BOOL result) {}];
+  }
+}
 
 #pragma mark - UISceneSession lifecycle
 

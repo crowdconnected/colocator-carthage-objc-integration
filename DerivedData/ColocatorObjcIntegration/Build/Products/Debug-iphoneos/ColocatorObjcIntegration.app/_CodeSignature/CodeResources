@@ -44,9 +44,13 @@
 		<data>
 		gu70asGF0dWZveJdSNc2pe9phj8=
 		</data>
+		<key>Frameworks/CCLocation.framework/.DS_Store</key>
+		<data>
+		6PbahegYdD+RTbqIU7cgaGNByCE=
+		</data>
 		<key>Frameworks/CCLocation.framework/CCLocation</key>
 		<data>
-		zHeDfHQn7+VJHzpfBlAIceorjqE=
+		GdnlRFPmCy5OpI/dwpERgm+hCME=
 		</data>
 		<key>Frameworks/CCLocation.framework/Info.plist</key>
 		<data>
@@ -54,7 +58,7 @@
 		</data>
 		<key>Frameworks/CCLocation.framework/_CodeSignature/CodeResources</key>
 		<data>
-		iqqlQBa5lQ7l2nPwG5qH5ZD+wZQ=
+		fV1gp+EKvX0ph24aev5NF5tUoSE=
 		</data>
 		<key>Frameworks/CCLocation.framework/certificate.der</key>
 		<data>
@@ -66,7 +70,7 @@
 		</data>
 		<key>Frameworks/ReSwift.framework/ReSwift</key>
 		<data>
-		pbEzovvdtGqTL6mVRPTOtmmwvKE=
+		BINY6u9pQ5Rhybdn/tZmXN9lmx8=
 		</data>
 		<key>Frameworks/ReSwift.framework/_CodeSignature/CodeResources</key>
 		<data>
@@ -78,7 +82,7 @@
 		</data>
 		<key>Frameworks/Result.framework/Result</key>
 		<data>
-		Mo5KrwkYGjhNcw2+6gvWEzxBVn8=
+		PGF/fVQW/wamE6hxyORmiU/+GSo=
 		</data>
 		<key>Frameworks/Result.framework/_CodeSignature/CodeResources</key>
 		<data>
@@ -90,7 +94,7 @@
 		</data>
 		<key>Frameworks/SocketRocket.framework/SocketRocket</key>
 		<data>
-		1tBG9tFj7MyMMwFJ4xj18q/PwcQ=
+		iednGkHy8IPI7pkPAJD+s5YkhBY=
 		</data>
 		<key>Frameworks/SocketRocket.framework/_CodeSignature/CodeResources</key>
 		<data>
@@ -102,7 +106,7 @@
 		</data>
 		<key>Frameworks/SwiftProtobuf.framework/SwiftProtobuf</key>
 		<data>
-		oTNazwu6hcoX5JtoZxtgQJxJPGQ=
+		oqkXR5HUnrAhYNfKlzFNQt/Hrvw=
 		</data>
 		<key>Frameworks/SwiftProtobuf.framework/_CodeSignature/CodeResources</key>
 		<data>
@@ -114,7 +118,7 @@
 		</data>
 		<key>Frameworks/TrueTime.framework/TrueTime</key>
 		<data>
-		rmF7pOZqMcn6OZKVu51kFr9YBjc=
+		NnpHh8fCzx/kwoffGmQHxUc+yyM=
 		</data>
 		<key>Frameworks/TrueTime.framework/_CodeSignature/CodeResources</key>
 		<data>
@@ -122,7 +126,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		0sdpp3NpUNmnTpCvNljFFBKlhvI=
+		1CrmiNFBJPFU6r0X3cFE53lDmCw=
 		</data>
 		<key>PkgInfo</key>
 		<data>
@@ -249,11 +253,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			zHeDfHQn7+VJHzpfBlAIceorjqE=
+			GdnlRFPmCy5OpI/dwpERgm+hCME=
 			</data>
 			<key>hash2</key>
 			<data>
-			2cMRTSu1RHR+48jV5/AA58k3MB6s0ETmbe6nSCYitZ4=
+			Mj3/MBuRfJleQ6nOlwrmq2NzUF6LmsCAV6sirDfemCg=
 			</data>
 		</dict>
 		<key>Frameworks/CCLocation.framework/Info.plist</key>
@@ -271,11 +275,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			iqqlQBa5lQ7l2nPwG5qH5ZD+wZQ=
+			fV1gp+EKvX0ph24aev5NF5tUoSE=
 			</data>
 			<key>hash2</key>
 			<data>
-			uXDu2dhEubY7zLxDlRvFGhOFASRoD7ptZmCSKztXJpw=
+			k9NlUtIrFMGB+tVZ+g7kVjWUzb+blPQE3BCSMsX3oH8=
 			</data>
 		</dict>
 		<key>Frameworks/CCLocation.framework/certificate.der</key>
@@ -304,11 +308,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			pbEzovvdtGqTL6mVRPTOtmmwvKE=
+			BINY6u9pQ5Rhybdn/tZmXN9lmx8=
 			</data>
 			<key>hash2</key>
 			<data>
-			mDSTpMQpmd65BIK3tCKagO3++7l2tnLvV6lE3MiRzb8=
+			eG+oi8B+r/c7UDzPXABR38J4wIV6VD7PismZtL8ey3k=
 			</data>
 		</dict>
 		<key>Frameworks/ReSwift.framework/_CodeSignature/CodeResources</key>
@@ -337,11 +341,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Mo5KrwkYGjhNcw2+6gvWEzxBVn8=
+			PGF/fVQW/wamE6hxyORmiU/+GSo=
 			</data>
 			<key>hash2</key>
 			<data>
-			yDcW8vVbpd29rkslo5F3kF34cy1KbqWeIy3oIFFqVKY=
+			XXdV8zuZu0S0dVop1/WppA9wtSmFWVNFdCsOGiXZHi8=
 			</data>
 		</dict>
 		<key>Frameworks/Result.framework/_CodeSignature/CodeResources</key>
@@ -370,11 +374,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			1tBG9tFj7MyMMwFJ4xj18q/PwcQ=
+			iednGkHy8IPI7pkPAJD+s5YkhBY=
 			</data>
 			<key>hash2</key>
 			<data>
-			1mbZhRnzYAzyJGOvVNjxP4QAgM7Pzpfo2YI+1PqYbgc=
+			MOBhSX/V2ewXeLYAYYAFhXM0GiaTCN2OQ5j1IuyuLSM=
 			</data>
 		</dict>
 		<key>Frameworks/SocketRocket.framework/_CodeSignature/CodeResources</key>
@@ -403,11 +407,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			oTNazwu6hcoX5JtoZxtgQJxJPGQ=
+			oqkXR5HUnrAhYNfKlzFNQt/Hrvw=
 			</data>
 			<key>hash2</key>
 			<data>
-			EF/BpgNkagj5JWGJy0ykRN0VRDfWDrijDVsDbbvhgRw=
+			KCf2FXfbGliyRqysDw8NYIVZYLqlcnPI0Ym7ffx6i9Q=
 			</data>
 		</dict>
 		<key>Frameworks/SwiftProtobuf.framework/_CodeSignature/CodeResources</key>
@@ -436,11 +440,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			rmF7pOZqMcn6OZKVu51kFr9YBjc=
+			NnpHh8fCzx/kwoffGmQHxUc+yyM=
 			</data>
 			<key>hash2</key>
 			<data>
-			LFZh8QzZXIXMbZ6Z+Rgb68wHYIdMdcERduckTWCzegA=
+			OMc2uNCvhWBzt4Q/x+NqjT16UcSf+Dvqjx22ypcX+Q8=
 			</data>
 		</dict>
 		<key>Frameworks/TrueTime.framework/_CodeSignature/CodeResources</key>
