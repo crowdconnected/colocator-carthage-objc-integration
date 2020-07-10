@@ -43,6 +43,9 @@ class SQLiteDatabase {
         }
     }
     
+    public var areMessagesCounted = false
+    public var lastCountForMessagesTable = -2
+    
     fileprivate init(dbPointer: OpaquePointer?) {
         self.dbPointer = dbPointer
         messagesBufferClearTimer = Timer.scheduledTimer(timeInterval: TimeInterval(1),
@@ -172,48 +175,61 @@ extension SQLiteDatabase {
 
 extension SQLiteDatabase {
     
-    func count(table:String) throws -> Int {
-           var count: Int = -1
-           
-           let querySql = "SELECT COUNT(*) FROM " + table + ";"
-           
-           guard let queryStatement = try? prepareStatement(sql: querySql) else {
-               throw SQLiteError.Prepare(message: errorMessage)
-           }
-           
-           while(sqlite3_step(queryStatement) == SQLITE_ROW)
-           {
-               count = Int(sqlite3_column_int(queryStatement, 0));
-           }
-           
-           defer {
-               sqlite3_finalize(queryStatement)
-           }
-           
-           //        if (count == 0){
-           //            if try saveResetAutoincrement(table: table) {
-           //                Log.debug("Successfully reset auto increment counter")
-           //            }
-           //        }
-           
-           return count
-       }
+    func count(table: String) throws -> Int {
+        if table == CCLocationTables.kMessagesTable && areMessagesCounted {
+            return lastCountForMessagesTable
+        }
+        
+        var count: Int = -1
+        
+        let querySql = "SELECT COUNT(*) FROM " + table + ";"
+        
+        guard let queryStatement = try? prepareStatement(sql: querySql) else {
+            throw SQLiteError.Prepare(message: errorMessage)
+        }
+        
+        while(sqlite3_step(queryStatement) == SQLITE_ROW)
+        {
+            count = Int(sqlite3_column_int(queryStatement, 0));
+        }
+        
+        defer {
+            sqlite3_finalize(queryStatement)
+        }
+        
+        if table == CCLocationTables.kMessagesTable {
+            lastCountForMessagesTable = count
+            areMessagesCounted = true
+        }
+       
+        return count
+    }
     
-    func saveResetAutoincrement(table:String) throws {
+    func saveResetAutoincrement(table: String) throws {
         if try count(table: table) == 0 {
-            let resetAutoincrementSql = "DELETE FROM sqlite_sequence WHERE name = '\(table)';"
-            
-            guard let resetAutoincrementStatement = try? prepareStatement(sql: resetAutoincrementSql) else {
-                throw SQLiteError.Prepare(message: errorMessage)
+            do {
+                try saveResetAutoincrementEmptyTable(table: table)
+            } catch {
+                Log.warning("Failed to save and autoincrement table \(table) in local database")
             }
+        }
+    }
+    
+    func saveResetAutoincrementEmptyTable(table: String) throws {
+        areMessagesCounted = false
+        
+        let resetAutoincrementSql = "DELETE FROM sqlite_sequence WHERE name = '\(table)';"
             
-            defer {
-                sqlite3_finalize(resetAutoincrementStatement)
-            }
+        guard let resetAutoincrementStatement = try? prepareStatement(sql: resetAutoincrementSql) else {
+            throw SQLiteError.Prepare(message: errorMessage)
+        }
             
-            guard sqlite3_step(resetAutoincrementStatement) == SQLITE_DONE else {
-                throw SQLiteError.Step(message: errorMessage)
-            }
+        defer {
+            sqlite3_finalize(resetAutoincrementStatement)
+        }
+            
+        guard sqlite3_step(resetAutoincrementStatement) == SQLITE_DONE else {
+            throw SQLiteError.Step(message: errorMessage)
         }
     }
 }

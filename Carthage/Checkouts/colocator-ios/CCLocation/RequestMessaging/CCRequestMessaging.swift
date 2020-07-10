@@ -33,6 +33,8 @@ class CCRequestMessaging: NSObject {
     internal var messagesDB: SQLiteDatabase!
     internal let messagesDBName = "observations.db"
     
+    var surveyMode: Bool = false
+    
     init(ccSocket: CCSocket, stateStore: Store<LibraryState>) {
         super.init()
         
@@ -86,7 +88,8 @@ class CCRequestMessaging: NSObject {
                                                           longitude: locationResponse.longitude,
                                                           headingOffSet: locationResponse.headingOffset,
                                                           error: locationResponse.error,
-                                                          timestamp: locationResponse.timestamp)
+                                                          timestamp: locationResponse.timestamp,
+                                                          floor: locationResponse.floor)
                 
                 messages.append(newLocationMessage)
             }
@@ -121,12 +124,16 @@ class CCRequestMessaging: NSObject {
                                      bluetoothHardware: CBCentralManagerState?,
                                      batteryState: UIDevice.BatteryState?,
                                      isLowPowerModeEnabled: Bool?,
-                                     isLocationServicesEnabled: Bool?){
+                                     isLocationServicesEnabled: Bool?,
+                                     isMotionAndFitnessEnabled: Bool?){
         var clientMessage = Messaging_ClientMessage()
         var capabilityMessage = Messaging_IosCapability()
         
         if let locationServices = isLocationServicesEnabled {
             capabilityMessage.locationServices = locationServices
+        }
+        if let motionServices = isMotionAndFitnessEnabled {
+            capabilityMessage.motionAndFitness = motionServices
         }
         if let lowPowerMode = isLowPowerModeEnabled {
             capabilityMessage.lowPowerMode = lowPowerMode
@@ -152,14 +159,16 @@ class CCRequestMessaging: NSObject {
     // MARK: - STATE HANDLING FUNCTIONS
     
     public func webSocketDidOpen() {
-        if stateStore != nil {
-            DispatchQueue.main.async {self.stateStore.dispatch(WebSocketAction(connectionState: ConnectionState.online))}
+        DispatchQueue.main.async {
+            if self.stateStore == nil { return }
+            self.stateStore.dispatch(WebSocketAction(connectionState: ConnectionState.online))
         }
     }
     
     public func webSocketDidClose() {
-        if stateStore != nil {
-            DispatchQueue.main.async {self.stateStore.dispatch(WebSocketAction(connectionState: ConnectionState.offline))}
+        DispatchQueue.main.async {
+            if self.stateStore == nil { return }
+            self.stateStore.dispatch(WebSocketAction(connectionState: ConnectionState.offline))
         }
     }
     
@@ -233,7 +242,10 @@ class CCRequestMessaging: NSObject {
         sendQueuedClientMessagesTimerFired()
         
         // now we simply resume the normal timer
-        DispatchQueue.main.async {self.stateStore.dispatch(ScheduleSilencePeriodTimerAction())}
+        DispatchQueue.main.async {
+            if self.stateStore == nil { return }
+            self.stateStore.dispatch(ScheduleSilencePeriodTimerAction())
+        }
     }
     
     func stop() {
@@ -271,6 +283,7 @@ extension CCRequestMessaging: TimeHandlingDelegate {
             """)
         
         DispatchQueue.main.async {
+            if self.stateStore == nil { return }
             self.stateStore.dispatch(NewTruetimeReceivedAction(lastTrueTime: trueTime,
                                                                bootTimeIntervalAtLastTrueTime: timeIntervalSinceBootTime,
                                                                systemTimeAtLastTrueTime: systemTime,
@@ -282,7 +295,10 @@ extension CCRequestMessaging: TimeHandlingDelegate {
         }
         
         if radioSilenceTimerState.timer == .stopped && radioSilenceTimerState.startTimeInterval != nil {
-            DispatchQueue.main.async {self.stateStore.dispatch(ScheduleSilencePeriodTimerAction())}
+            DispatchQueue.main.async {
+                if self.stateStore == nil { return }
+                self.stateStore.dispatch(ScheduleSilencePeriodTimerAction())
+            }
         }
     }
 }

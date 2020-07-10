@@ -15,12 +15,10 @@ import Foundation
 extension CCLocationManager {
     
     @objc func updateMonitoringForRegions () {
-        
         // stop monitoring for regions
         self.stopMonitoringForBeaconRegions()
         
         // then see if we can start monitoring for new region
-        
         Log.verbose("------- a list of monitored regions before adding iBeacons -------")
         for monitoredRegion in locationManager.monitoredRegions {
             Log.verbose("region \(monitoredRegion)")
@@ -28,7 +26,6 @@ extension CCLocationManager {
         Log.verbose("------- list end -------")
         
         for region in currentiBeaconMonitoringState.monitoringRegions {
-            
             var regionInMonitoredRegions = false
             
             for monitoredRegion in locationManager.monitoredRegions where monitoredRegion is CLBeaconRegion {
@@ -98,7 +95,6 @@ extension CCLocationManager {
     }
     
     func updateRangingIBeacons() {
-        
         Log.debug("updateRangingIBeacons");
         
         // first stop ranging for any CrowdConnected regions
@@ -106,7 +102,6 @@ extension CCLocationManager {
         
         // Then see if we can start ranging for new region
         for region in currentBeaconState.regions {
-            
             var regionInRangedRegions = false
             
             for rangedRegion in locationManager.rangedRegions where rangedRegion is CLBeaconRegion {
@@ -154,47 +149,9 @@ extension CCLocationManager {
                                                              repeats: false)
             }
         }
-        
-        //        } else {
-        //            if let minOffTime = currentBeaconState.minOffTime {
-        //
-        //                if let maxOnTimeStart = stateStore.state.locationSettingsState.currentLocationState?.currentBeaconState?.maxOnTimeStart {
-        //                    if let maxOnTimeInterval = stateStore.state.locationSettingsState.currentLocationState?.currentBeaconState?.maxRuntime {
-        //
-        //                        let timeIntervalMaxOnTimeStart = Date().timeIntervalSince(maxOnTimeStart)
-        //
-        //                        if timeIntervalMaxOnTimeStart > TimeInterval(maxOnTimeInterval / 1000) {
-        //                            let offTimeEnd = maxOnTimeStart.addingTimeInterval(TimeInterval(maxOnTimeInterval / 1000)).addingTimeInterval(TimeInterval(minOffTime / 1000))
-        //
-        //                            if (offTimeEnd > Date()) {
-        //                                stateStore.dispatch(SetiBeaconOffTimeEndAction(offTimeEnd: offTimeEnd))
-        //                            } else {
-        //                                // do nothing
-        //                            }
-        //                        } else {
-        //                            let offTimeEnd = Date().addingTimeInterval(TimeInterval(minOffTime / 1000))
-        //
-        //                            Log.verbose("BEACONTIMER we have a minOffTime of \(offTimeEnd) for Beacons to be set")
-        //
-        //                            stateStore.dispatch(SetiBeaconOffTimeEndAction(offTimeEnd: offTimeEnd))
-        //                        }
-        //                    }
-        //                } else {
-        //                    let offTimeEnd = Date().addingTimeInterval(TimeInterval(minOffTime / 1000))
-        //
-        //                    Log.verbose("BEACONTIMER we have a minOffTime of \(offTimeEnd) for Beacons to be set")
-        //
-        //                    stateStore.dispatch(SetiBeaconOffTimeEndAction(offTimeEnd: offTimeEnd))
-        //                }
-        //            } else {
-        //                Log.verbose("BEACONTIMER no min off time, stopping updates")
-        //                stateStore.dispatch(SetiBeaconOffTimeEndAction(offTimeEnd: nil))
-        //            }
-        //        }
     }
     
     func stopRangingiBeacons (forCurrentSettings: Bool) {
-        
         // iBeacon first filter for all regions we are ranging in atm
         let crowdConnectedRegions = locationManager.rangedRegions.filter {
             if $0 is CLBeaconRegion {
@@ -272,6 +229,8 @@ extension CCLocationManager: BeaconScannerDelegate {
 extension CCLocationManager {
     
     fileprivate func checkIfWindowSizeAndMaxObservationsAreAvailable(_ isFilterAvailable: inout Bool) {
+        if stateStore == nil { return }
+        
         guard let currentBeaconState = stateStore.state.locationSettingsState.currentLocationState?.currentBeaconState else {
             return
         }
@@ -379,7 +338,10 @@ extension CCLocationManager {
 // CBCentralManagerDelegate
 extension CCLocationManager {
     public func centralManagerDidUpdateState(_ central: CBCentralManager) {
-        DispatchQueue.main.async {self.stateStore.dispatch(BluetoothHardwareChangedAction(bluetoothHardware: central.centralManagerState))}
+        DispatchQueue.main.async {
+            if self.stateStore == nil { return }
+            self.stateStore.dispatch(BluetoothHardwareChangedAction(bluetoothHardware: central.centralManagerState))
+        }
     }
 }
 

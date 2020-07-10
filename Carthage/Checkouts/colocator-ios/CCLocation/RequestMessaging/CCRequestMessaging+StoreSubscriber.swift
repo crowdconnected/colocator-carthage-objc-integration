@@ -14,7 +14,7 @@ import ReSwift
 extension CCRequestMessaging: StoreSubscriber {
     
     public func newState(state: CCRequestMessagingState) {
-        Log.debug("New RequestMessaging state is \n\(state)")
+        Log.verbose("New RequestMessaging state is \n\(state)")
         
         if let webSocketState = state.webSocketState, webSocketState != currentWebSocketState {
             currentWebSocketState = webSocketState
@@ -51,7 +51,8 @@ extension CCRequestMessaging: StoreSubscriber {
                                  bluetoothHardware: newCapabilityState.bluetoothHardware,
                                  batteryState: newCapabilityState.batteryState,
                                  isLowPowerModeEnabled: newCapabilityState.isLowPowerModeEnabled,
-                                 isLocationServicesEnabled: newCapabilityState.isLocationServicesAvailable)
+                                 isLocationServicesEnabled: newCapabilityState.isLocationServicesAvailable,
+                                 isMotionAndFitnessEnabled: newCapabilityState.isMotionAndFitnessAvailable)
         }
     }
     

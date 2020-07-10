@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-//#import <CCLocation-Swift.h>
+#import <CCLocation/CCLocation.h>
 #import <CCLocation/CCLocation-Swift.h>
 
-@interface ViewController : UIViewController <CCLocationDelegate>
+@interface ViewController : UIViewController <CCLocation>
 
 
 @end

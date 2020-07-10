@@ -17,13 +17,14 @@ struct CapabilityReducerConstants {
     static let batteryState = "batteryState"
     static let isLowPowerModeEnabled = "isLowPowerModeEnabled"
     static let isLocationServicesEnabled = "isLocationServicesEnabled"
+    static let isMotionAndFitnessEnabled = "isMotionAndFitnessEnabled"
 }
 
 private typealias C = CapabilityReducerConstants
 
 func capabilityReducer (action: Action, state: CapabilityState?) -> CapabilityState {
     
-    var state = CapabilityState(locationAuthStatus: CLAuthorizationStatus.notDetermined, bluetoothHardware: CBCentralManagerState.unknown, batteryState: UIDevice.BatteryState.unknown, isLowPowerModeEnabled: false, isLocationServicesEnabled: false)
+    var state = CapabilityState(locationAuthStatus: CLAuthorizationStatus.notDetermined, bluetoothHardware: CBCentralManagerState.unknown, batteryState: UIDevice.BatteryState.unknown, isLowPowerModeEnabled: false, isLocationServicesEnabled: false, isMotionAndFitnessEnabled: nil)
     
     if let loadedCapabilityState = getCapabilityStateFromUserDefaults() {
         state = loadedCapabilityState
@@ -45,6 +46,8 @@ func capabilityReducer (action: Action, state: CapabilityState?) -> CapabilitySt
     case let isLocationServicesEnabledAction as IsLocationServicesEnabledAction:
         state.isLocationServicesAvailable = isLocationServicesEnabledAction.isLocationServicesEnabled
         
+    case let isMotionAndFitnessEnabled as IsMotionAndFitnessEnabledAction:
+        state.isMotionAndFitnessAvailable = isMotionAndFitnessEnabled.isMotionAndFitnessEnabled
     default: break
     }
 
@@ -75,7 +78,7 @@ func getCapabilityStateFromUserDefaults () -> CapabilityState? {
             batteryState = UIDevice.BatteryState(rawValue: batteryStateRaw as! Int)
         }
 
-        return CapabilityState(locationAuthStatus: locationAuthStatus, bluetoothHardware: bluetoothHardware, batteryState: batteryState, isLowPowerModeEnabled: dictionary?[C.isLowPowerModeEnabled] as? Bool, isLocationServicesEnabled: dictionary?[C.isLocationServicesEnabled] as? Bool)
+        return CapabilityState(locationAuthStatus: locationAuthStatus, bluetoothHardware: bluetoothHardware, batteryState: batteryState, isLowPowerModeEnabled: dictionary?[C.isLowPowerModeEnabled] as? Bool, isLocationServicesEnabled: dictionary?[C.isLocationServicesEnabled] as? Bool, isMotionAndFitnessEnabled: dictionary?[C.isMotionAndFitnessEnabled] as? Bool)
     } else {
         return nil
     }
@@ -97,6 +100,10 @@ func saveCapabilityStateToUserDefaults (capabilityState: CapabilityState?){
 
     if let isLocationServicesAvailable = capabilityState.isLocationServicesAvailable {
         dictionary[C.isLocationServicesEnabled] = isLocationServicesAvailable ? 1 : 0
+    }
+    
+    if let isMotionAndFitnessAvailable = capabilityState.isMotionAndFitnessAvailable {
+        dictionary[C.isMotionAndFitnessEnabled] = isMotionAndFitnessAvailable ? 1 : 0
     }
     
     if let batteryState = capabilityState.batteryState {

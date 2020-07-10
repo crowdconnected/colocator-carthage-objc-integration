@@ -3,8 +3,8 @@
   "iOS" : [
     {
       "name" : "TrueTime",
-      "hash" : "812e2bdc73ea6345de0237ba3dc192bafb0ba10f26fec93ad8ce6c7185d97fb1",
-      "swiftToolchainVersion" : "5.1 (swiftlang-1100.0.270.13 clang-1100.0.33.7)"
+      "hash" : "5e991f9eb97cc5ff67f567e8148f32736cc8c303679678674a60c152dee02b32",
+      "swiftToolchainVersion" : "5.2.4 (swiftlang-1103.0.32.9 clang-1103.0.32.53)"
     }
   ]
 }

@@ -3,8 +3,8 @@
   "iOS" : [
     {
       "name" : "SwiftProtobuf",
-      "hash" : "0991d444508c6464891843c3a4767dbfa3f0ff9a276aedb1c54f1a8ed0aedee0",
-      "swiftToolchainVersion" : "5.1 (swiftlang-1100.0.270.13 clang-1100.0.33.7)"
+      "hash" : "15e819347de6beddbd16bbd85e1bafbf217251972c487491efc35a11ffe739e9",
+      "swiftToolchainVersion" : "5.2.4 (swiftlang-1103.0.32.9 clang-1103.0.32.53)"
     }
   ]
 }

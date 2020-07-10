@@ -16,17 +16,20 @@ public struct CapabilityState: StateType, AutoEquatable {
     var batteryState: UIDevice.BatteryState?
     var isLowPowerModeEnabled: Bool?
     var isLocationServicesAvailable: Bool?
+    var isMotionAndFitnessAvailable: Bool?
     
     init(locationAuthStatus: CLAuthorizationStatus?,
          bluetoothHardware: CBCentralManagerState?,
          batteryState: UIDevice.BatteryState?,
          isLowPowerModeEnabled: Bool?,
-         isLocationServicesEnabled: Bool?) {
+         isLocationServicesEnabled: Bool?,
+         isMotionAndFitnessEnabled: Bool?) {
         
         self.locationAuthStatus = locationAuthStatus
         self.bluetoothHardware = bluetoothHardware
         self.batteryState = batteryState
         self.isLowPowerModeEnabled = isLowPowerModeEnabled
         self.isLocationServicesAvailable = isLocationServicesEnabled
+        self.isMotionAndFitnessAvailable = isMotionAndFitnessEnabled
     }
 }

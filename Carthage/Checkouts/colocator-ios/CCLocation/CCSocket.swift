@@ -18,17 +18,22 @@ import TrueTime
     @objc public var headingOffSet: Double
     @objc public var error: Double
     @objc public var timestamp: UInt64
+    @objc public var floor: UInt64
     
     public init(latitude: Double,
          longitude: Double,
          headingOffSet: Double,
          error: Double,
-         timestamp: UInt64) {
+         timestamp: UInt64,
+         floor: UInt64) {
+        
         self.latitude = latitude
         self.longitude = longitude
         self.headingOffSet = headingOffSet
         self.error = error
         self.timestamp = timestamp
+        self.floor = floor
+        
         super.init()
     }
 }

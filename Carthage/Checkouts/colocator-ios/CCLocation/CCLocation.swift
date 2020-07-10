@@ -9,21 +9,23 @@
 import Foundation
 import ReSwift
 import CoreBluetooth
+import CoreLocation
 import CoreMotion
+import UserNotifications
+import UIKit
 
 internal struct Constants {
     static let kDefaultEndPointPartialUrl = ".colocator.net:443/socket"
     static let kEndPointUpdateLibraryBackgroundUrl = "https://canconnect.colocator.net/connect/connectping"
 }
 
-@objc public protocol CCLocationDelegate: class {
+@objc(CCLocation) public protocol CCLocationDelegate: class {
     @objc func ccLocationDidConnect()
     @objc func ccLocationDidFailWithError(error: Error)
     @objc func didReceiveCCLocation(_ location: LocationResponse)
-    @objc func didFailToUpdateCCLocation()
 }
 
-@objc public class CCLocation: NSObject {
+@objc(CCLocation) public class CCLocation: NSObject {
     
     @objc public weak var delegate: CCLocationDelegate?
     
@@ -42,6 +44,8 @@ internal struct Constants {
     @objc public func start(apiKey: String, urlString: String? = nil) {
         if libraryStarted == false {
             libraryStarted = true
+            
+            setLoggerLevels(verbose: false, info: false, debug: false, warning: true, error: true, severe: true)
             
             NSLog("[Colocator] Initialising Colocator")
             
@@ -73,6 +77,8 @@ internal struct Constants {
             libraryStarted = false
             stateStore = nil
             
+            NSLog("[Colocator] Stopping Colocator")
+            
             colocatorManager?.stop()
             colocatorManager = nil
         } else {
@@ -96,6 +102,10 @@ internal struct Constants {
                                            severe: severe)
     }
     
+    @objc public func setSurveyMode(state: Bool) {
+        colocatorManager?.ccRequestMessaging?.surveyMode = state
+    }
+    
     @objc public func getDeviceId() -> String? {
         return CCSocket.sharedInstance.deviceId
     }
@@ -111,11 +121,12 @@ internal struct Constants {
     
     @available(*, deprecated, message: "Replaced by triggerMotionPermissionPopUp() method")
     @objc public static func askMotionPermissions() {
-        CMPedometer().stopUpdates()
+        CCLocation.sharedInstance.triggerMotionPermissionPopUp()
     }
    
     @objc public func triggerMotionPermissionPopUp() {
         CMPedometer().stopUpdates()
+        CCLocation.sharedInstance.colocatorManager?.ccInertial?.updateFitnessAndMotionStatus()
     }
     
     @objc public func triggerBluetoothPermissionPopUp() {
@@ -166,10 +177,18 @@ internal struct Constants {
                 let clientStatus = jsonResponse?["connect"] as? Bool
                 
                 if clientStatus == true {
-                    self.start(apiKey: key)
-                    Log.info("[Colocator] Library started from background")
-                    completion(true)
-                    return
+                    if self.libraryStarted == true {
+                        self.stop()
+                        self.start(apiKey: key)
+                        Log.info("[Colocator] Library started from background")
+                        completion(true)
+                        return
+                    } else {
+                        self.start(apiKey: key)
+                        Log.info("[Colocator] Library started from background")
+                        completion(true)
+                        return
+                    }
                 }
                 if clientStatus == false {
                     self.stop()
@@ -194,8 +213,7 @@ internal struct Constants {
             colocatorManager?.ccRequestMessaging?.sendLocationRequestMessage(type: 1)
             Log.info("[Colocator] Requested one Colocator location")
         } else {
-            delegate?.didFailToUpdateCCLocation()
-            Log.warning("[Colocator] Failed to request one Colocator location")
+            Log.error("[Colocator] Failed to request one Colocator location")
         }
     }
     
@@ -204,8 +222,7 @@ internal struct Constants {
             colocatorManager?.ccRequestMessaging?.sendLocationRequestMessage(type: 2)
             Log.info("[Colocator] Registered for Colocator location updates")
         } else {
-            delegate?.didFailToUpdateCCLocation()
-            Log.warning("[Colocator] Failed to register for Colocator location updates")
+            Log.error("[Colocator] Failed to register for Colocator location updates")
         }
     }
     
@@ -214,9 +231,125 @@ internal struct Constants {
             Log.info("[Colocator] Unregistered for Colocator location updates")
             colocatorManager?.ccRequestMessaging?.sendLocationRequestMessage(type: 3)
         } else {
-            delegate?.didFailToUpdateCCLocation()
-            Log.warning("[Colocator] Failed to unregister for Colocaor location updates")
+            Log.error("[Colocator] Failed to unregister for Colocaor location updates")
         }
+    }
+    
+    // MARK: - Test Library Integration
+    
+    @objc public func testLibraryIntegration() -> String {
+        let semaphore = DispatchSemaphore(value: 0)
+        
+        var locationPermission = "unidentified"
+        var bluetoothPermission = "unidentified"
+        var motionPermission = "unidentified"
+        var notificationsPermission = "unidentified"
+        
+        if #available(iOS 13.1, *) {
+            switch CBManager.authorization {
+            case .notDetermined: bluetoothPermission = "Not Determined"
+            case .restricted: bluetoothPermission = "Restricted"
+            case .denied: bluetoothPermission = "Denied"
+            case .allowedAlways: bluetoothPermission = "Allowed Always"
+            }
+        } else {
+            // Fallback on earlier versions
+            notificationsPermission = "unidentified      Reason: iOS < 13.1"
+        }
+        
+        if #available(iOS 11.0, *) {
+            switch CMPedometer.authorizationStatus() {
+            case .notDetermined: motionPermission = "Not Determined"
+            case .restricted: motionPermission = "Restricted"
+            case .denied: motionPermission = "Denied"
+            case .authorized: motionPermission = "Authorized"
+            }
+        } else {
+            // Fallback on earlier versions
+            notificationsPermission = "unidentified      Reason: iOS < 11.0"
+        }
+        
+        if #available(iOS 10.0, *) {
+            let currentNotification = UNUserNotificationCenter.current()
+            currentNotification.getNotificationSettings(completionHandler: { (settings) in
+                 if settings.authorizationStatus == .notDetermined {
+                    notificationsPermission = "Not Determined"
+                 } else if settings.authorizationStatus == .denied {
+                    notificationsPermission = "Denied"
+                 } else if settings.authorizationStatus == .authorized {
+                    notificationsPermission = "Authorized"
+                 }
+                semaphore.signal()
+              })
+        } else {
+            // Fallback on earlier versions
+            notificationsPermission = "unidentified      Reason: iOS < 10.0"
+        }
+      
+        switch CLLocationManager.authorizationStatus() {
+        case .notDetermined: locationPermission = "Not Determined"
+        case .restricted: locationPermission = "Restricted"
+        case .denied: locationPermission = "Denied"
+        case .authorizedAlways: locationPermission = "Always"
+        case .authorizedWhenInUse: locationPermission = "When In Use"
+        }
+        
+        var deviceToken = "unidentified"
+        var pushNotificationProvider = "unidentified"
+        
+        if let aliases = UserDefaults.standard.value(forKey: CCSocketConstants.kAliasKey) as? Dictionary<String, String> {
+            for (key, value) in aliases {
+                if key == "apns_user_id" {
+                    deviceToken = value
+                    pushNotificationProvider = "APNS"
+                } else if key == "expo_token" {
+                    deviceToken = value
+                    pushNotificationProvider = "Expo"
+                } else if key == "fcm_user_id" {
+                    deviceToken = value
+                    pushNotificationProvider = "Firebase"
+                } else if key == "one_signal_token" {
+                    deviceToken = value
+                    pushNotificationProvider = "One Signal"
+                } else if key == "pinpointEndpoint" {
+                    deviceToken = value
+                    pushNotificationProvider = "Pinpoint"
+                } else if key == "pushwooshUserId" {
+                    deviceToken = value
+                    pushNotificationProvider = "Pushwhoosd"
+                } else if key == "snsEndpoint" {
+                    deviceToken = value
+                    pushNotificationProvider = "APNSNSS"
+                } else if key == "UAid" {
+                    deviceToken = value
+                    pushNotificationProvider = "Urban Airship"
+                }
+            }
+        }
+        
+        _ = semaphore.wait(timeout: .now() + 3)
+        
+        let integrationTestResponse = """
+        
+           ====  Integration Test Response  ====
+        
+        Device ID: \(getDeviceId() ?? "unidentified")
+        Library Status: \(libraryStarted == true ? "On" : "Off")
+        
+        Location Permission Status: \(locationPermission)
+        Bluetooth Permission Status: \(bluetoothPermission)
+        Motion Permission Status: \(motionPermission)
+        Notification Permission Status: \(notificationsPermission)
+        
+        Registered for Remote Notification: \(UIApplication.shared.isRegisteredForRemoteNotifications)
+        Push Notification Provider: \(pushNotificationProvider)
+        Notification Device Token: \(deviceToken)
+        
+           ====  Integration Test Response  ====
+        
+        """
+        
+        return integrationTestResponse
     }
 }
 
@@ -236,6 +369,7 @@ extension CCLocation: CCSocketDelegate {
     
     func ccSocketDidConnect() {
         self.delegate?.ccLocationDidConnect()
+        colocatorManager?.ccInertial?.updateFitnessAndMotionStatus()
     }
     
     func ccSocketDidFailWithError(error: Error) {

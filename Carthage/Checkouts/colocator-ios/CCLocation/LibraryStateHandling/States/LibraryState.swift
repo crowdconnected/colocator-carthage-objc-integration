@@ -17,4 +17,5 @@ public struct LibraryState: StateType {
     var locationSettingsState: LocationSettingsState
     var batteryLevelState: BatteryLevelState
     var intertialState: InertialState?
+    var contactState: ContactState?
 }

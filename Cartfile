@@ -1,4 +1,4 @@
-github "crowdconnected/colocator-ios" "2.4.1"
+github "crowdconnected/colocator-ios" "2.7.0"
 github "ReSwift/ReSwift" "5.0.0"
 github "antitypical/Result" "5.0.0"
 github "apple/swift-protobuf" "1.6.0"

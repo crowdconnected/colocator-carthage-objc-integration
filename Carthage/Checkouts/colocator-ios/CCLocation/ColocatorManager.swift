@@ -23,6 +23,8 @@ class ColocatorManager {
     var ccLocationManager: CCLocationManager?
     var ccRequestMessaging: CCRequestMessaging?
     var ccInertial: CCInertial?
+    var ccContactTracing: ContactTracing?
+    var ccEidGenerator: EIDGeneratorManager?
     var ccSocket: CCSocket?
     
     var messagesDatabase: SQLiteDatabase!
@@ -65,13 +67,18 @@ class ColocatorManager {
             ccSocket = CCSocket.sharedInstance
             ccSocket!.delegate = ccLocation
             
-            ccLocationManager = CCLocationManager(stateStore: state!)
-            ccInertial = CCInertial(stateStore: state!)
-            ccRequestMessaging = CCRequestMessaging(ccSocket: ccSocket!,
-                                                    stateStore: state!)
-            
+            ccLocationManager = CCLocationManager(stateStore: self.state!)
             ccLocationManager!.delegate = self
+            
+            ccInertial = CCInertial(stateStore: self.state!)
             ccInertial!.delegate = self
+
+            ccEidGenerator = EIDGeneratorManager(stateStore: self.state!)
+            ccContactTracing = ContactTracing(stateStore: self.state!)
+            ccContactTracing?.eidGenerator = ccEidGenerator
+            ccContactTracing?.delegate = self
+            
+            ccRequestMessaging = CCRequestMessaging(ccSocket: ccSocket!, stateStore: state!)
             
             Log.info("[Colocator] Attempt to connect to back-end with URL: \(urlString) and APIKey: \(apiKey)")
                        
@@ -99,6 +106,14 @@ class ColocatorManager {
             ccLocationManager?.stop()
             ccLocationManager?.delegate = nil
             ccLocationManager = nil
+            
+            ccInertial?.stop()
+            ccInertial?.delegate = nil
+            ccInertial = nil
+            
+            ccContactTracing?.stop()
+            ccContactTracing?.delegate = nil
+            ccContactTracing = nil
             
             Log.info("[Colocator] Sending all messages from local database to server before stopping")
         
@@ -362,5 +377,12 @@ extension ColocatorManager: CCLocationManagerDelegate {
 extension ColocatorManager: CCInertialDelegate {
     func receivedStep(date: Date, angle: Double) {
         ccRequestMessaging?.processStep(date: date, angle: angle)
+    }
+}
+
+// MARK: - CCContactTracingDelegate
+extension ColocatorManager: ContactScannerDelegate {
+    func newContact(EID: String, RSSI: Int, timestamp: Double) {
+        ccRequestMessaging?.processContact(EID: EID, RSSI: RSSI, timestamp: timestamp)
     }
 }

@@ -18,8 +18,8 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
-    [CCLocation.sharedInstance startWithApiKey:@"CC_APP_KEY" urlString:@"colocator.net:443/socket"];
+
+    [CCLocation.sharedInstance startWithApiKey:@"CC_APP_KEY" urlString:NULL];
     
     [[UIApplication sharedApplication] registerForRemoteNotifications];
     NSDictionary *params = [[launchOptions objectForKey:@"UIApplicationLaunchOptionsRemoteNotificationKey"] objectForKey:@"appsInfo"];

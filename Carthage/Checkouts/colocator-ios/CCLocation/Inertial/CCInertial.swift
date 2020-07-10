@@ -24,10 +24,17 @@ class CCInertial: NSObject {
     private var previousPedometerData: PedometerData?
     private var yawDataBuffer: [YawData] = []
     
+    private let yawDataSerialQueue = DispatchQueue(label: "YawDataDispatchQueue")
+    
+    private lazy var yawDataOperationQueue: OperationQueue = {
+        let queue = OperationQueue()
+        queue.name = "Yaw Data queue"
+        queue.maxConcurrentOperationCount = 5
+        return queue
+    }()
+
     var currentInertialState: InertialState!
-    
     weak var stateStore: Store<LibraryState>!
-    
     public weak var delegate: CCInertialDelegate?
     
     init(stateStore: Store<LibraryState>) {
@@ -38,20 +45,43 @@ class CCInertial: NSObject {
         stateStore.subscribe(self)
     }
     
+    public func updateFitnessAndMotionStatus() {
+        // The 5 seconds time frame is the estimated time (+ margin) for the user to make a choice in granting permission
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            if self.stateStore == nil { return }
+            if #available(iOS 11.0, *) {
+                if self.stateStore == nil { return }
+                switch CMMotionActivityManager.authorizationStatus() {
+                    case .authorized:  self.stateStore.dispatch(IsMotionAndFitnessEnabledAction(isMotionAndFitnessEnabled: true))
+                    case .restricted, .denied: self.stateStore.dispatch(IsMotionAndFitnessEnabledAction(isMotionAndFitnessEnabled: false))
+                    case .notDetermined: self.stateStore.dispatch(IsMotionAndFitnessEnabledAction(isMotionAndFitnessEnabled: nil))
+                }
+            } else {
+                // Fallback on earlier versions
+            }
+        }
+    }
+    
     internal func start() {
        if #available(iOS 11.0, *) {
            let pedometerAuthStatus = CMPedometer.authorizationStatus()
            
            if pedometerAuthStatus == .authorized || pedometerAuthStatus == .notDetermined {
                Log.info("[Colocator] Starting inertial")
-               
+            
                startCountingSteps()
                startMotionUpdates()
+               updateFitnessAndMotionStatus()
            } else {
-               Log.debug("Authorisation status is .denied or .restriced, no inertial updates requested")
+               Log.info("[Colocator] Cannot start inertial due to restricted permission for Motion&Fitness")
+            
+               DispatchQueue.main.async {
+                    if self.stateStore == nil { return }
+                    self.stateStore.dispatch(IsMotionAndFitnessEnabledAction(isMotionAndFitnessEnabled: false))
+               }
            }
        } else {
-           Log.info("Starting inertial")
+           Log.info("[Colocator] Starting inertial")
            
            startCountingSteps()
            startMotionUpdates()
@@ -76,63 +106,71 @@ class CCInertial: NSObject {
         pedometer.startUpdates(from: pedometerStartDate) { [weak self] pedometerData, error in
             guard let pedometerData = pedometerData, error == nil else {
                 Log.error("[Colocator] Received: \(error.debugDescription)")
+                self?.updateFitnessAndMotionStatus()
                 return
             }
             
-            DispatchQueue.main.async {
-                self?.handleStepsSinceLastCount(fromPedometerData: pedometerData)
-            }
+            self?.handleStepsSinceLastCount(fromPedometerData: pedometerData)
         }
     }
     
     private func startMotionUpdates() {
         if !motion.isDeviceMotionAvailable {
+            Log.debug("Device Motion is not available. Cannot start monitoring updated")
             return
         }
         
-        self.motion.startDeviceMotionUpdates(using: .xArbitraryZVertical,
-                                             to: OperationQueue.main,
-                                             withHandler: { (deviceMotion, error) in
+        motion.startDeviceMotionUpdates(using: .xArbitraryZVertical,
+                                        to: yawDataOperationQueue) { [weak self] deviceMotion, error in
             guard let data = deviceMotion, error == nil else {
-                let cmError = error as? CMError
-                
-                Log.error("[Colocator] Received motion update error: \(cmError.debugDescription)")
+                Log.error("[Colocator] Received motion update error: \((error as? CMError).debugDescription)")
+                self?.updateFitnessAndMotionStatus()
                 return
             }
-            
-            let yawValue = data.attitude.yaw
-            let yawData = YawData(yaw: yawValue, date: Date())
-            
-            Log.verbose("""
-                Pedometer Data
-                Yaw: \(yawData.yaw)
-                Timestamp: \(yawData.date.timeIntervalSince1970)
-                Interval: \(self.motion.deviceMotionUpdateInterval )
-                """)
-            
+
+            DispatchQueue.main.async {
+                self?.handleDeviceMotionData(data)
+            }
+        }
+    }
+    
+    private func handleDeviceMotionData(_ data: CMDeviceMotion) {
+        let yawValue = data.attitude.yaw
+        let yawData = YawData(yaw: yawValue, date: Date())
+
+        Log.verbose("""
+            Device Motion Data
+            Yaw: \(yawData.yaw)
+            Timestamp: \(yawData.date.timeIntervalSince1970)
+            """)
+
+        yawDataSerialQueue.sync {
             self.yawDataBuffer.append(yawData)
+        }
+
+        let bufferSize = CCInertialConstants.kBufferSize
+        let cutOff = CCInertialConstants.kCutOff
+
+        if self.yawDataBuffer.count >= bufferSize {
+            let upperLimit = bufferSize - cutOff - 1
             
-            let bufferSize = CCInertialConstants.kBufferSize
-            let cutOff = CCInertialConstants.kCutOff
-            
-            if self.yawDataBuffer.count >= bufferSize {
-                let upperLimit = bufferSize - cutOff - 1
+            yawDataSerialQueue.sync {
                 self.yawDataBuffer.removeSubrange(0 ... upperLimit)
             }
-        })
+        }
     }
     
     private func findFirstSmallerYaw(yawArray: [YawData], timeInterval: TimeInterval) -> YawData? {
         for (index, yaw) in yawArray.reversed().enumerated() {
-            Log.verbose("""
-                Pedometer Data
-                Yaw time interval: \(yaw.date.timeIntervalSince1970)
-                Time interval: \(timeInterval)
-                """)
-            
             if yaw.date.timeIntervalSince1970 < timeInterval {
                 let upperLimit = yawArray.count - index - 1
-                yawDataBuffer.removeSubrange(0 ... upperLimit)
+                yawDataSerialQueue.sync {
+                    yawDataBuffer.removeSubrange(0 ... upperLimit)
+                
+                    // Extend matching yaw data for 0.04 seconds for reducing the discarded steps number
+                    yawDataBuffer.insert(YawData(yaw: yaw.yaw, date: Date(timeIntervalSince1970: yaw.date.timeIntervalSince1970 + 0.04)), at: 0)
+                }
+                
                 return yaw
             }
         }
@@ -158,12 +196,9 @@ class CCInertial: NSObject {
             Log.verbose("""
                 Pedometer Data
                 Step count: \(numberOfSteps)
-                Previous step count: \(tempPreviousPedometerData.numberOfSteps)
                 Period between step counts: \(periodBetweenStepCounts)
                 Steps in-between: \(stepsBetweenStepCounts)
                 Time interval per step: \(oneStepTimeInterval)
-                Current timestamp: \(endDate.timeIntervalSince1970)
-                Previous timestamp: \(tempPreviousPedometerData.endDate.timeIntervalSince1970)
                 """)
             
             handleAndReceiveEachStep(totalSteps: stepsBetweenStepCounts,
@@ -184,16 +219,14 @@ class CCInertial: NSObject {
             let tempTimeStamp = previousPedometerData.endDate.timeIntervalSince1970 + tempTimePeriod
             
             guard let tempYaw = findFirstSmallerYaw(yawArray: yawDataBuffer, timeInterval: tempTimeStamp) else {
-                Log.debug("Temp yaw is nil. Steps won't be sent to server")
+                Log.debug("Steps discarded. Matching yaw not found")
                 continue
             }
             
             Log.debug ("""
-                Pedometer Data
-                Step count: \(i)
-                Time period: \(tempTimePeriod)
+                Valid Step Data
                 Timestamp: \(tempTimeStamp)
-                Yaw value: \(String(describing: tempYaw.yaw))
+                Yaw: \(String(describing: tempYaw.yaw))
                 """)
             
             let stepDate = Date(timeIntervalSince1970: tempTimeStamp)

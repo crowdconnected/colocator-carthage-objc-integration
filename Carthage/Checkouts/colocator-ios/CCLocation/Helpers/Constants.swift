@@ -23,7 +23,7 @@ struct CCLocationConstants {
 }
 
 struct CCSocketConstants {
-    static let kLibraryVersionToReport = "2.4.1"
+    static let kLibraryVersionToReport = "2.7.0"
     static let kLastDeviceIDKey = "LastDeviceId"
     static let kMinDelay: Double = 1 * 1000
     static let kMaxDelay: Double = 60 * 60 * 1000

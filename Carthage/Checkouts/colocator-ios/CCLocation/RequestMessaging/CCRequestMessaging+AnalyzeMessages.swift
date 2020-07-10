@@ -31,6 +31,8 @@ extension CCRequestMessaging {
                 self.checkLocationTypeMessages(tempClientMessage!.locationMessage, subMessageCounter: subMessageCounter)
             
             subMessageCounter = actualizedSubmessageCounter
+            
+            if self.surveyMode == true { compiledClientMessage.surveryMode = true }
             compiledClientMessage.locationMessage.append(contentsOf: toCompileMessages)
             backToQueueMessages.locationMessage.append(contentsOf: toQueueMessages)
         }
@@ -42,6 +44,8 @@ extension CCRequestMessaging {
                 self.checkGeofenceTypeMessages(tempClientMessage!.circularGeoFenceEvents, subMessageCounter: subMessageCounter)
             
             subMessageCounter = actualizedSubmessageCounter
+            
+            if self.surveyMode == true { compiledClientMessage.surveryMode = true }
             compiledClientMessage.circularGeoFenceEvents.append(contentsOf: toCompileMessages)
             backToQueueMessages.circularGeoFenceEvents.append(contentsOf: toQueueMessages)
         }
@@ -53,6 +57,8 @@ extension CCRequestMessaging {
                 self.checkStepsTypeMessages(tempClientMessage!.step, subMessageCounter: subMessageCounter)
             
             subMessageCounter = actualizedSubmessageCounter
+            
+            if self.surveyMode == true { compiledClientMessage.surveryMode = true }
             compiledClientMessage.step.append(contentsOf: toCompileMessages)
             backToQueueMessages.step.append(contentsOf: toQueueMessages)
         }
@@ -64,6 +70,8 @@ extension CCRequestMessaging {
                 self.checkBluetoothTypeMessages(tempClientMessage!.bluetoothMessage, subMessageCounter: subMessageCounter)
             
             subMessageCounter = actualizedSubmessageCounter
+            
+            if self.surveyMode == true { compiledClientMessage.surveryMode = true }
             compiledClientMessage.bluetoothMessage.append(contentsOf: toCompileMessages)
             backToQueueMessages.bluetoothMessage.append(contentsOf: toQueueMessages)
         }
@@ -75,6 +83,8 @@ extension CCRequestMessaging {
                 self.checkiBeaconTypeMessages(tempClientMessage!.ibeaconMessage, subMessageCounter: subMessageCounter)
             
             subMessageCounter = actualizedSubmessageCounter
+            
+            if self.surveyMode == true { compiledClientMessage.surveryMode = true }
             compiledClientMessage.ibeaconMessage.append(contentsOf: toCompileMessages)
             backToQueueMessages.ibeaconMessage.append(contentsOf: toQueueMessages)
         }
@@ -86,6 +96,8 @@ extension CCRequestMessaging {
                 self.checkEddystoneTypeMessages(tempClientMessage!.eddystonemessage, subMessageCounter: subMessageCounter)
             
             subMessageCounter = actualizedSubmessageCounter
+            
+            if self.surveyMode == true { compiledClientMessage.surveryMode = true }
             compiledClientMessage.eddystonemessage.append(contentsOf: toCompileMessages)
             backToQueueMessages.eddystonemessage.append(contentsOf: toQueueMessages)
         }
@@ -97,6 +109,8 @@ extension CCRequestMessaging {
                 self.checkAliasesTypeMessages(tempClientMessage!.alias, subMessageCounter: subMessageCounter)
             
             subMessageCounter = actualizedSubmessageCounter
+            
+            if self.surveyMode == true { compiledClientMessage.surveryMode = true }
             compiledClientMessage.alias.append(contentsOf: toCompileMessages)
             backToQueueMessages.alias.append(contentsOf: toQueueMessages)
         }
@@ -109,6 +123,7 @@ extension CCRequestMessaging {
             
             subMessageCounter = actualizedSubmessageCounter
             if let newCompileMessage = toCompileMessage {
+                if self.surveyMode == true { compiledClientMessage.surveryMode = true }
                 compiledClientMessage.iosCapability = newCompileMessage
             }
             if let newQueueMessage = toQueueMessage {
@@ -124,6 +139,7 @@ extension CCRequestMessaging {
             
             subMessageCounter = actualizedSubmessageCounter
             if let newCompileMessage = toCompileMessage {
+                if self.surveyMode == true { compiledClientMessage.surveryMode = true }
                 compiledClientMessage.locationRequest = newCompileMessage
             }
             if let newQueueMessage = toQueueMessage {
@@ -131,8 +147,22 @@ extension CCRequestMessaging {
             }
         }
         
+        if tempClientMessage!.contactMessage.count > 0 {
+            Log.debug("Found contact message in queue")
+            
+            let (actualizedSubmessageCounter, toCompileMessages, toQueueMessages) = self.checkContactTypeMessages(tempClientMessage!.contactMessage,
+                                                                                                                subMessageCounter: subMessageCounter)
+            subMessageCounter = actualizedSubmessageCounter
+            
+            if self.surveyMode == true { compiledClientMessage.surveryMode = true }
+            compiledClientMessage.contactMessage.append(contentsOf: toCompileMessages)
+            backToQueueMessages.contactMessage.append(contentsOf: toQueueMessages)
+        }
+        
         if let newBatteryMessage = self.checkNewBatteryLevelTypeMessage() {
             Log.debug ("Found new battery level messages in queue")
+            
+            if self.surveyMode == true { compiledClientMessage.surveryMode = true }
             compiledClientMessage.battery = newBatteryMessage
         }
         
@@ -366,7 +396,10 @@ extension CCRequestMessaging {
                 if let batteryLevel = stateStore.state.batteryLevelState.batteryLevel {
                     batteryMessage.battery = batteryLevel
                     newBatteryMessage = batteryMessage
-                    DispatchQueue.main.async {self.stateStore.dispatch(BatteryLevelReportedAction())}
+                    DispatchQueue.main.async {
+                        if self.stateStore == nil { return }
+                        self.stateStore.dispatch(BatteryLevelReportedAction())
+                    }
                 }
             }
         }
@@ -377,10 +410,10 @@ extension CCRequestMessaging {
                                             -> (Int, Messaging_ClientLocationRequest?, Messaging_ClientLocationRequest?) {
         let subMessageNo = subMessageCounter
         var locationRequestMessage = Messaging_ClientLocationRequest()
-        let tempCapabilityMessage = message
+        let tempLocationRequestMessage = message
                           
-        if tempCapabilityMessage.hasType {
-            locationRequestMessage.type = tempCapabilityMessage.type
+        if tempLocationRequestMessage.hasType {
+            locationRequestMessage.type = tempLocationRequestMessage.type
         }
         
         if subMessageNo >= 0 {
@@ -388,6 +421,31 @@ extension CCRequestMessaging {
         } else {
             return (subMessageNo + 1, nil, locationRequestMessage)
         }
+    }
+    
+    public func checkContactTypeMessages(_ messages: [Messaging_ContactMessage], subMessageCounter: Int)
+                                         -> (Int, [Messaging_ContactMessage], [Messaging_ContactMessage]) {
+        var clientMessagesToCompile = [Messaging_ContactMessage]()
+        var messagesToQueue = [Messaging_ContactMessage]()
+        var subMessageNo = subMessageCounter
+        
+        for tempContactMessage in messages {
+            var contactMessage = Messaging_ContactMessage()
+            
+            contactMessage.eid = tempContactMessage.eid
+            contactMessage.rssi = tempContactMessage.rssi
+            contactMessage.timestamp = tempContactMessage.timestamp
+            
+            if subMessageCounter >= 0 {
+                clientMessagesToCompile.append(contactMessage)
+            } else {
+                messagesToQueue.append(contactMessage)
+            }
+            
+            subMessageNo += 1
+        }
+        
+        return (subMessageNo, clientMessagesToCompile, messagesToQueue)
     }
 }
 

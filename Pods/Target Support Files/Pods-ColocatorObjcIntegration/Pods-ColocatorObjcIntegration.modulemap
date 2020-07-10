@@ -1,6 +1,0 @@
-framework module Pods_ColocatorObjcIntegration {
-  umbrella header "Pods-ColocatorObjcIntegration-umbrella.h"
-
-  export *
-  module * { export * }
-}

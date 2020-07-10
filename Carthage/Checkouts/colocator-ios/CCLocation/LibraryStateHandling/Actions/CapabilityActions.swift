@@ -29,3 +29,7 @@ struct IsLowPowerModeEnabledAction : Action {
 struct IsLocationServicesEnabledAction : Action {
     let isLocationServicesEnabled: Bool?
 }
+
+struct IsMotionAndFitnessEnabledAction : Action {
+    let isMotionAndFitnessEnabled: Bool?
+}

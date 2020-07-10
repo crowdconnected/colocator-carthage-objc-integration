@@ -37,7 +37,6 @@
 		4F920BF81F3B161100BD7FEF /* LibraryTimeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F920BF71F3B161100BD7FEF /* LibraryTimeState.swift */; };
 		4F920BFA1F3B1C7F00BD7FEF /* LibraryTimeStateAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F920BF91F3B1C7F00BD7FEF /* LibraryTimeStateAction.swift */; };
 		4F920BFC1F3B1D6400BD7FEF /* LibraryTimeReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F920BFB1F3B1D6400BD7FEF /* LibraryTimeReducer.swift */; };
-		4FA524DB1F4050F90067D2C8 /* MessagingProtocol.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA524DA1F4050F90067D2C8 /* MessagingProtocol.pb.swift */; };
 		4FA524DE1F4109940067D2C8 /* certificate.der in Resources */ = {isa = PBXBuildFile; fileRef = 4FA524DD1F4109940067D2C8 /* certificate.der */; };
 		4FAAEA261F46F90600DF4DA1 /* WakeupState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAAEA251F46F90500DF4DA1 /* WakeupState.swift */; };
 		4FAAEA281F46F9C500DF4DA1 /* WakeupReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAAEA271F46F9C500DF4DA1 /* WakeupReducer.swift */; };
@@ -104,6 +103,23 @@
 		97FF65EB230EA10100C50D52 /* SQLiteDatabase+Get.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97FF65EA230EA10100C50D52 /* SQLiteDatabase+Get.swift */; };
 		97FF65EE230EAE3100C50D52 /* CCInertial+StoreSubscriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97FF65ED230EAE3100C50D52 /* CCInertial+StoreSubscriber.swift */; };
 		97FF65F0230EAF7C00C50D52 /* Inertial+Structures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97FF65EF230EAF7C00C50D52 /* Inertial+Structures.swift */; };
+		AA4AE86624976CEB00F9E954 /* ContactTracing.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4AE86524976CEB00F9E954 /* ContactTracing.swift */; };
+		AA4AE86924976D2500F9E954 /* ContactAdvertiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4AE86824976D2500F9E954 /* ContactAdvertiser.swift */; };
+		AA4AE86B24976D3400F9E954 /* ContactScaner.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4AE86A24976D3400F9E954 /* ContactScaner.swift */; };
+		AA4AE86D24976D4A00F9E954 /* EIDGeneratorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4AE86C24976D4A00F9E954 /* EIDGeneratorManager.swift */; };
+		AA4AE86F24977BE300F9E954 /* ContactTracing+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4AE86E24977BE300F9E954 /* ContactTracing+Util.swift */; };
+		AA4AE87124977DB000F9E954 /* ContactTracing+StoreSubscriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4AE87024977DB000F9E954 /* ContactTracing+StoreSubscriber.swift */; };
+		AA4AE87324978B5200F9E954 /* ContactBluetoothState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4AE87224978B5200F9E954 /* ContactBluetoothState.swift */; };
+		AA4AE87524978E2500F9E954 /* ContactBluetoothReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4AE87424978E2500F9E954 /* ContactBluetoothReducer.swift */; };
+		AA4AE87724979A6100F9E954 /* ContactBluetoothActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4AE87624979A6100F9E954 /* ContactBluetoothActions.swift */; };
+		AA4AE8792497BE9900F9E954 /* EIDState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4AE8782497BE9900F9E954 /* EIDState.swift */; };
+		AA4AE87B2497BF0A00F9E954 /* ContactState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4AE87A2497BF0A00F9E954 /* ContactState.swift */; };
+		AA4AE87D2497C04E00F9E954 /* ContactReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4AE87C2497C04E00F9E954 /* ContactReducer.swift */; };
+		AA4AE87F2497C05A00F9E954 /* EIDReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4AE87E2497C05A00F9E954 /* EIDReducer.swift */; };
+		AA4AE8812497C1E200F9E954 /* EIDActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4AE8802497C1E200F9E954 /* EIDActions.swift */; };
+		AA4AE8832497D60D00F9E954 /* EIDGeneratorManager+StoreSubscriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4AE8822497D60D00F9E954 /* EIDGeneratorManager+StoreSubscriber.swift */; };
+		AA9954EC2498E2C300C0F91F /* MessagingProtocol.proto in Sources */ = {isa = PBXBuildFile; fileRef = AA9954EA2498E2C200C0F91F /* MessagingProtocol.proto */; };
+		AADEF4C3249A124D0043C0AF /* MessagingProtocol.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADEF4C2249A124D0043C0AF /* MessagingProtocol.pb.swift */; };
 		BC0647AF218757A500555512 /* CCBeaconScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0647AE218757A500555512 /* CCBeaconScanner.swift */; };
 		BC0647B1218757B900555512 /* CCEddystone.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0647B0218757B900555512 /* CCEddystone.swift */; };
 		BC0647B5218757E200555512 /* DispatchTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0647B4218757E200555512 /* DispatchTimer.swift */; };
@@ -147,7 +163,6 @@
 		4F222B181F90EA4300FB11BD /* BatteryLevelState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryLevelState.swift; sourceTree = "<group>"; };
 		4F222B1A1F90EDA600FB11BD /* BatteryLevelReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryLevelReducer.swift; sourceTree = "<group>"; };
 		4F222B1D1F90F17F00FB11BD /* BatteryLevelActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryLevelActions.swift; sourceTree = "<group>"; };
-		4F5019A11F24ED0F002F467F /* MessagingProtocol.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MessagingProtocol.proto; sourceTree = "<group>"; };
 		4F648D662051A38D0043175F /* SQLiteDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteDatabase.swift; sourceTree = "<group>"; };
 		4F648D6A2052F3390043175F /* TimeHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeHandling.swift; sourceTree = "<group>"; };
 		4F659BB51F24910100775ABD /* CCLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CCLocationManager.swift; sourceTree = "<group>"; };
@@ -172,7 +187,6 @@
 		4F920BF71F3B161100BD7FEF /* LibraryTimeState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryTimeState.swift; sourceTree = "<group>"; };
 		4F920BF91F3B1C7F00BD7FEF /* LibraryTimeStateAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryTimeStateAction.swift; sourceTree = "<group>"; };
 		4F920BFB1F3B1D6400BD7FEF /* LibraryTimeReducer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryTimeReducer.swift; sourceTree = "<group>"; };
-		4FA524DA1F4050F90067D2C8 /* MessagingProtocol.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagingProtocol.pb.swift; sourceTree = "<group>"; };
 		4FA524DD1F4109940067D2C8 /* certificate.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = certificate.der; sourceTree = "<group>"; };
 		4FAAEA251F46F90500DF4DA1 /* WakeupState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WakeupState.swift; sourceTree = "<group>"; };
 		4FAAEA271F46F9C500DF4DA1 /* WakeupReducer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WakeupReducer.swift; sourceTree = "<group>"; };
@@ -241,6 +255,23 @@
 		97FF65EA230EA10100C50D52 /* SQLiteDatabase+Get.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SQLiteDatabase+Get.swift"; sourceTree = "<group>"; };
 		97FF65ED230EAE3100C50D52 /* CCInertial+StoreSubscriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CCInertial+StoreSubscriber.swift"; sourceTree = "<group>"; };
 		97FF65EF230EAF7C00C50D52 /* Inertial+Structures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Inertial+Structures.swift"; sourceTree = "<group>"; };
+		AA4AE86524976CEB00F9E954 /* ContactTracing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTracing.swift; sourceTree = "<group>"; };
+		AA4AE86824976D2500F9E954 /* ContactAdvertiser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactAdvertiser.swift; sourceTree = "<group>"; };
+		AA4AE86A24976D3400F9E954 /* ContactScaner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactScaner.swift; sourceTree = "<group>"; };
+		AA4AE86C24976D4A00F9E954 /* EIDGeneratorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIDGeneratorManager.swift; sourceTree = "<group>"; };
+		AA4AE86E24977BE300F9E954 /* ContactTracing+Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContactTracing+Util.swift"; sourceTree = "<group>"; };
+		AA4AE87024977DB000F9E954 /* ContactTracing+StoreSubscriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContactTracing+StoreSubscriber.swift"; sourceTree = "<group>"; };
+		AA4AE87224978B5200F9E954 /* ContactBluetoothState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactBluetoothState.swift; sourceTree = "<group>"; };
+		AA4AE87424978E2500F9E954 /* ContactBluetoothReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactBluetoothReducer.swift; sourceTree = "<group>"; };
+		AA4AE87624979A6100F9E954 /* ContactBluetoothActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactBluetoothActions.swift; sourceTree = "<group>"; };
+		AA4AE8782497BE9900F9E954 /* EIDState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIDState.swift; sourceTree = "<group>"; };
+		AA4AE87A2497BF0A00F9E954 /* ContactState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactState.swift; sourceTree = "<group>"; };
+		AA4AE87C2497C04E00F9E954 /* ContactReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactReducer.swift; sourceTree = "<group>"; };
+		AA4AE87E2497C05A00F9E954 /* EIDReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIDReducer.swift; sourceTree = "<group>"; };
+		AA4AE8802497C1E200F9E954 /* EIDActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIDActions.swift; sourceTree = "<group>"; };
+		AA4AE8822497D60D00F9E954 /* EIDGeneratorManager+StoreSubscriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EIDGeneratorManager+StoreSubscriber.swift"; sourceTree = "<group>"; };
+		AA9954EA2498E2C200C0F91F /* MessagingProtocol.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.protobuf; path = MessagingProtocol.proto; sourceTree = "<group>"; };
+		AADEF4C2249A124D0043C0AF /* MessagingProtocol.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagingProtocol.pb.swift; sourceTree = "<group>"; };
 		BC0647AE218757A500555512 /* CCBeaconScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CCBeaconScanner.swift; path = CCLocation/CCBeaconScanner.swift; sourceTree = SOURCE_ROOT; };
 		BC0647B0218757B900555512 /* CCEddystone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCEddystone.swift; sourceTree = "<group>"; };
 		BC0647B4218757E200555512 /* DispatchTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatchTimer.swift; sourceTree = "<group>"; };
@@ -303,6 +334,9 @@
 				4F8FFD7E1F2C74940001910A /* LifecycleState.swift */,
 				4F222B181F90EA4300FB11BD /* BatteryLevelState.swift */,
 				4FE19A5422AA49DE000CE5A8 /* InertialState.swift */,
+				AA4AE87224978B5200F9E954 /* ContactBluetoothState.swift */,
+				AA4AE8782497BE9900F9E954 /* EIDState.swift */,
+				AA4AE87A2497BF0A00F9E954 /* ContactState.swift */,
 			);
 			path = States;
 			sourceTree = "<group>";
@@ -314,6 +348,9 @@
 				4F8FFD801F2C75E90001910A /* LifecycleReducer.swift */,
 				4F222B1A1F90EDA600FB11BD /* BatteryLevelReducer.swift */,
 				4FE19A5622AA4AF4000CE5A8 /* InertialReducer.swift */,
+				AA4AE87C2497C04E00F9E954 /* ContactReducer.swift */,
+				AA4AE87424978E2500F9E954 /* ContactBluetoothReducer.swift */,
+				AA4AE87E2497C05A00F9E954 /* EIDReducer.swift */,
 				4FE620B2211B4E8F00DF8DB2 /* LocationReducers */,
 				4FE620B1211B4E8300DF8DB2 /* CCRequestMessagingReducers */,
 			);
@@ -339,6 +376,8 @@
 				4F920BF91F3B1C7F00BD7FEF /* LibraryTimeStateAction.swift */,
 				4FE19A5A22AA513E000CE5A8 /* InertialActions.swift */,
 				97044502230BE61D001B2815 /* GeofencesActions.swift */,
+				AA4AE87624979A6100F9E954 /* ContactBluetoothActions.swift */,
+				AA4AE8802497C1E200F9E954 /* EIDActions.swift */,
 			);
 			path = Actions;
 			sourceTree = "<group>";
@@ -469,6 +508,20 @@
 			path = Inertial;
 			sourceTree = "<group>";
 		};
+		AA4AE86724976D0E00F9E954 /* ContactTracing */ = {
+			isa = PBXGroup;
+			children = (
+				AA4AE86524976CEB00F9E954 /* ContactTracing.swift */,
+				AA4AE86E24977BE300F9E954 /* ContactTracing+Util.swift */,
+				AA4AE87024977DB000F9E954 /* ContactTracing+StoreSubscriber.swift */,
+				AA4AE86824976D2500F9E954 /* ContactAdvertiser.swift */,
+				AA4AE86A24976D3400F9E954 /* ContactScaner.swift */,
+				AA4AE86C24976D4A00F9E954 /* EIDGeneratorManager.swift */,
+				AA4AE8822497D60D00F9E954 /* EIDGeneratorManager+StoreSubscriber.swift */,
+			);
+			path = ContactTracing;
+			sourceTree = "<group>";
+		};
 		BC0647AD2187578C00555512 /* eddyStone */ = {
 			isa = PBXGroup;
 			children = (
@@ -501,11 +554,11 @@
 		F0AF0C3A1DB3912700E72E76 /* CCLocation */ = {
 			isa = PBXGroup;
 			children = (
+				AADEF4C2249A124D0043C0AF /* MessagingProtocol.pb.swift */,
+				AA9954EA2498E2C200C0F91F /* MessagingProtocol.proto */,
 				F0AF0C3C1DB3912700E72E76 /* Info.plist */,
 				4FA524DD1F4109940067D2C8 /* certificate.der */,
 				4FBB8A9B1F30CAE200DEF04F /* SourceryTemplates */,
-				4F5019A11F24ED0F002F467F /* MessagingProtocol.proto */,
-				4FA524DA1F4050F90067D2C8 /* MessagingProtocol.pb.swift */,
 				BC0647AD2187578C00555512 /* eddyStone */,
 				4FE620AB211B4D8100DF8DB2 /* LibraryStateHandling */,
 				9770817B22E718DF0074D8E6 /* AutoEquatable.generated.swift */,
@@ -514,6 +567,7 @@
 				970ACF3A22D894DD00317525 /* ColocatorManager.swift */,
 				BC9DEB792124160B0015C5CF /* CCSocket.swift */,
 				97FF65EC230EAE1700C50D52 /* Inertial */,
+				AA4AE86724976D0E00F9E954 /* ContactTracing */,
 				97036DCF22CE532F005A8322 /* LocationManager */,
 				97036DC822CE461B005A8322 /* RequestMessaging */,
 				97FF65E1230E9ADB00C50D52 /* Database */,
@@ -688,7 +742,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA4AE86B24976D3400F9E954 /* ContactScaner.swift in Sources */,
 				9770817C22E718DF0074D8E6 /* AutoEquatable.generated.swift in Sources */,
+				AA4AE87324978B5200F9E954 /* ContactBluetoothState.swift in Sources */,
 				4FBB8AA91F3113C400DEF04F /* BackgroundLocationReducer.swift in Sources */,
 				4F8FFD9F1F2D30900001910A /* LifcycleActions.swift in Sources */,
 				4FBB8AC21F3711B600DEF04F /* CCRequestMessagingState.swift in Sources */,
@@ -697,8 +753,10 @@
 				4F03E1A21F9A1CC90023EEC2 /* CapabilityReducer.swift in Sources */,
 				4F8FFD891F2CC8D50001910A /* TimerState.swift in Sources */,
 				F0B2DE5F1E6D7859005E3B7A /* Constants.swift in Sources */,
+				AA4AE87F2497C05A00F9E954 /* EIDReducer.swift in Sources */,
 				97036DCA22CE4C91005A8322 /* CCLocationManager+StoreSubscriber.swift in Sources */,
 				9700649F22D62B9A00E7F9E9 /* DevicePlatformEnum.swift in Sources */,
+				AA4AE87524978E2500F9E954 /* ContactBluetoothReducer.swift in Sources */,
 				4F8FFD9D1F2CF6C90001910A /* ForegroundGEOReducer.swift in Sources */,
 				4FBB8AAC1F31145700DEF04F /* CurrentBeaconReducer.swift in Sources */,
 				4FE19A5722AA4AF4000CE5A8 /* InertialReducer.swift in Sources */,
@@ -708,18 +766,21 @@
 				4F920BFC1F3B1D6400BD7FEF /* LibraryTimeReducer.swift in Sources */,
 				4F8FFD911F2CE30C0001910A /* LocationSettingsState.swift in Sources */,
 				4F8FFD951F2CE4AC0001910A /* LocationSettingsReducer.swift in Sources */,
+				AA4AE87D2497C04E00F9E954 /* ContactReducer.swift in Sources */,
 				BC9DEB7E212429B10015C5CF /* ReachabilityManager.swift in Sources */,
 				BC0647B1218757B900555512 /* CCEddystone.swift in Sources */,
 				97FF65EE230EAE3100C50D52 /* CCInertial+StoreSubscriber.swift in Sources */,
 				4FBB8A8F1F30B92500DEF04F /* ForegroundLocationState.swift in Sources */,
+				AA4AE8812497C1E200F9E954 /* EIDActions.swift in Sources */,
 				4F8FFD851F2C7D420001910A /* WebSocketReducer.swift in Sources */,
 				BC0647AF218757A500555512 /* CCBeaconScanner.swift in Sources */,
 				97090E60230FDE9E00F1A684 /* CCRequestMessaging+Helpers.swift in Sources */,
 				BC9DEB7C212425680015C5CF /* Reachability.swift in Sources */,
 				4FBB8A9E1F30D07B00DEF04F /* CurrentBeaconState.swift in Sources */,
 				97FF65E9230E9DF300C50D52 /* SQLiteDatabase+Delete.swift in Sources */,
+				AA4AE8832497D60D00F9E954 /* EIDGeneratorManager+StoreSubscriber.swift in Sources */,
 				4F8FFD8B1F2CCA660001910A /* TimerReducer.swift in Sources */,
-				4FA524DB1F4050F90067D2C8 /* MessagingProtocol.pb.swift in Sources */,
+				AA4AE87724979A6100F9E954 /* ContactBluetoothActions.swift in Sources */,
 				4FFAA5991EF689ED00A2D508 /* LibraryReducer.swift in Sources */,
 				4FBB8AA31F30D2CB00DEF04F /* BackgroundLocationState.swift in Sources */,
 				4FAAEA2A1F46FA7A00DF4DA1 /* WakeupActions.swift in Sources */,
@@ -731,6 +792,8 @@
 				97036DC422CE0869005A8322 /* CCRequestMessaging+AnalyzeMessages.swift in Sources */,
 				4FBB8AA01F30D23600DEF04F /* CurrentLocationState.swift in Sources */,
 				97090E62230FE33F00F1A684 /* CCRequestMessaging+SystemNotification.swift in Sources */,
+				AA4AE86624976CEB00F9E954 /* ContactTracing.swift in Sources */,
+				AA4AE86D24976D4A00F9E954 /* EIDGeneratorManager.swift in Sources */,
 				4FE19A5B22AA513E000CE5A8 /* InertialActions.swift in Sources */,
 				4F659BB61F24910100775ABD /* CCLocationManager.swift in Sources */,
 				97036DC022CE06A3005A8322 /* CCRequestMessaging+ProcessEventsAndData.swift in Sources */,
@@ -761,6 +824,7 @@
 				97036DCC22CE4D50005A8322 /* CCLocationManager+DatabaseOperations.swift in Sources */,
 				4F8FFD871F2C809E0001910A /* WebSocketAction.swift in Sources */,
 				4FBB8AAE1F31149300DEF04F /* ForegroundBeaconReducer.swift in Sources */,
+				AADEF4C3249A124D0043C0AF /* MessagingProtocol.pb.swift in Sources */,
 				4FBB8AB21F311D2000DEF04F /* ForegroundBeaconActions.swift in Sources */,
 				4F8FFD931F2CE38E0001910A /* CurrentGEOState.swift in Sources */,
 				4FBB8AB01F3114B300DEF04F /* BackgroundiBeaconReducer.swift in Sources */,
@@ -768,17 +832,23 @@
 				4F648D6B2052F3390043175F /* TimeHandling.swift in Sources */,
 				4F8FFD831F2C7BF10001910A /* WebSocketState.swift in Sources */,
 				97FF65E7230E9DDE00C50D52 /* SQLiteDatabase+Insert.swift in Sources */,
+				AA4AE87B2497BF0A00F9E954 /* ContactState.swift in Sources */,
 				4FF6BA662105EA430082859F /* Logger.swift in Sources */,
 				4F920BFA1F3B1C7F00BD7FEF /* LibraryTimeStateAction.swift in Sources */,
 				4F222B191F90EA4300FB11BD /* BatteryLevelState.swift in Sources */,
+				AA4AE86924976D2500F9E954 /* ContactAdvertiser.swift in Sources */,
 				97036DCE22CE51BC005A8322 /* CCLocationManager+Bluetooth.swift in Sources */,
 				4F920BF81F3B161100BD7FEF /* LibraryTimeState.swift in Sources */,
 				97036DBE22CE05A2005A8322 /* CCRequestMessaging+StoreSubscriber.swift in Sources */,
 				4FAAEA281F46F9C500DF4DA1 /* WakeupReducer.swift in Sources */,
+				AA4AE86F24977BE300F9E954 /* ContactTracing+Util.swift in Sources */,
 				4FBB8AA51F31139200DEF04F /* CurrentLocationReducer.swift in Sources */,
+				AA4AE87124977DB000F9E954 /* ContactTracing+StoreSubscriber.swift in Sources */,
 				BC9DEB7A2124160B0015C5CF /* CCSocket.swift in Sources */,
 				97FF65EB230EA10100C50D52 /* SQLiteDatabase+Get.swift in Sources */,
+				AA4AE8792497BE9900F9E954 /* EIDState.swift in Sources */,
 				9702361022CCBDAB00D559A8 /* CCRequestMessaging+SendMessages.swift in Sources */,
+				AA9954EC2498E2C300C0F91F /* MessagingProtocol.proto in Sources */,
 				97FF65E0230E9A9700C50D52 /* DatabaseStructures.swift in Sources */,
 				4F03E1A41F9D30BF0023EEC2 /* CapabilityActions.swift in Sources */,
 				4F8FFD991F2CEC9E0001910A /* CurrentGEOSettingsAction.swift in Sources */,

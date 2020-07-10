@@ -101,8 +101,12 @@ class CCLocationManager: NSObject, CLLocationManagerDelegate, CBCentralManagerDe
         }
         
         // initial dispatch of location state
-        DispatchQueue.main.async {stateStore.dispatch(LocationAuthStatusChangedAction(locationAuthStatus: CLLocationManager.authorizationStatus()))}
-        DispatchQueue.main.async {stateStore.dispatch(IsLocationServicesEnabledAction(isLocationServicesEnabled: CLLocationManager.locationServicesEnabled()))}
+        DispatchQueue.main.async {
+            if self.stateStore != nil {
+                stateStore.dispatch(LocationAuthStatusChangedAction(locationAuthStatus: CLLocationManager.authorizationStatus()))
+                stateStore.dispatch(IsLocationServicesEnabledAction(isLocationServicesEnabled: CLLocationManager.locationServicesEnabled()))
+            }
+        }
         
         openIBeaconDatabase()
         createIBeaconTable()
@@ -143,9 +147,15 @@ class CCLocationManager: NSObject, CLLocationManagerDelegate, CBCentralManagerDe
             if minOffTime > 0 {
                 let offTimeEnd = Date().addingTimeInterval(TimeInterval(minOffTime / 1000))
                 
-                DispatchQueue.main.async {self.stateStore.dispatch(SetGEOOffTimeEnd(offTimeEnd: offTimeEnd))}
+                DispatchQueue.main.async {
+                    if self.stateStore == nil { return }
+                    self.stateStore.dispatch(SetGEOOffTimeEnd(offTimeEnd: offTimeEnd))
+                }
             } else {
-                DispatchQueue.main.async {self.stateStore.dispatch(SetGEOOffTimeEnd(offTimeEnd: nil))}
+                DispatchQueue.main.async {
+                    if self.stateStore == nil { return }
+                    self.stateStore.dispatch(SetGEOOffTimeEnd(offTimeEnd: nil))
+                }
             }
         }
     }
@@ -307,6 +317,7 @@ extension CCLocationManager {
         case CLError.denied:
             Log.error("[Colocator] LocationManager didFailWithError kCLErrorDenied: \(error.localizedDescription)")
             // According to API reference on denied error occures, when users stops location services, so we should stop them as well here
+            // If the next lines are uncommented, location updates won't start automatically in background if the user choose "Never" then "Always" from the settings menu
             
             // TODO: wrap into stop function to stop everything
             //            self.locationManager.stopUpdatingLocation()
@@ -353,8 +364,11 @@ extension CCLocationManager {
     }
     
     private func triggerWakeUpAction() {
-        DispatchQueue.main.async {self.stateStore.dispatch(NotifyWakeupAction(ccWakeup: CCWakeup.idle))}
-        DispatchQueue.main.async {self.stateStore.dispatch(NotifyWakeupAction(ccWakeup: CCWakeup.notifyWakeup))}
+        DispatchQueue.main.async {
+            if self.stateStore == nil { return }
+            self.stateStore.dispatch(NotifyWakeupAction(ccWakeup: CCWakeup.idle))
+            self.stateStore.dispatch(NotifyWakeupAction(ccWakeup: CCWakeup.notifyWakeup))
+        }
     }
     
     public func locationManager(_ manager: CLLocationManager, didDetermineState state: CLRegionState, for region: CLRegion) {
@@ -395,8 +409,12 @@ extension CCLocationManager {
     public func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         Log.debug("Changed authorization status")
         
-        DispatchQueue.main.async {self.stateStore.dispatch(LocationAuthStatusChangedAction(locationAuthStatus: status))}
-        DispatchQueue.main.async {self.stateStore.dispatch(IsLocationServicesEnabledAction(isLocationServicesEnabled: CLLocationManager.locationServicesEnabled()))}
+        DispatchQueue.main.async {
+            if self.stateStore != nil {
+                self.stateStore.dispatch(LocationAuthStatusChangedAction(locationAuthStatus: status))
+                self.stateStore.dispatch(IsLocationServicesEnabledAction(isLocationServicesEnabled: CLLocationManager.locationServicesEnabled()))
+            }
+        }
         
         switch (status) {
         case .notDetermined:

@@ -197,4 +197,34 @@ extension CCRequestMessaging {
             sendOrQueueClientMessage(data: data, messageType: .discardable)
         }
     }
+    
+    public func processContact(EID: String, RSSI: Int, timestamp: Double) {
+        var clientMessage = Messaging_ClientMessage()
+        var contactMessage = Messaging_ContactMessage()
+        
+        contactMessage.eid = EID
+        contactMessage.rssi = Int32(RSSI)
+        
+        let trueTimeSame = timeHandling.isRebootTimeSame(stateStore: stateStore, ccSocket: ccSocket)
+        
+        if stateStore.state.ccRequestMessagingState.libraryTimeState?.lastTrueTime != nil || trueTimeSame {
+            let libraryTimeState = stateStore.state.ccRequestMessagingState.libraryTimeState
+            let lastSystemTime = libraryTimeState?.systemTimeAtLastTrueTime
+            let beetweenSystemsTimeInterval = Date(timeIntervalSince1970: timestamp).timeIntervalSince(lastSystemTime!)
+            
+            let sendTimeInterval = libraryTimeState?.lastTrueTime?.addingTimeInterval(beetweenSystemsTimeInterval).timeIntervalSince1970
+            
+            contactMessage.timestamp = UInt64(sendTimeInterval! * 1000)
+        } else {
+            contactMessage.timestamp = UInt64(timestamp)
+        }
+        
+        clientMessage.contactMessage.append(contactMessage)
+        
+        Log.verbose("Contact message build: \(clientMessage)")
+        
+        if let data = try? clientMessage.serializedData() {
+            sendOrQueueClientMessage(data: data, messageType: .queueable)
+        }
+    }
 }

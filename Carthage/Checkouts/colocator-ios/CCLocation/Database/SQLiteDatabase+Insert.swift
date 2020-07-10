@@ -27,9 +27,9 @@ extension SQLiteDatabase {
             
             let total_count = try count(table: CCLocationTables.kIBeaconMessagesTable)
             
-            try saveResetAutoincrement(table: CCLocationTables.kIBeaconMessagesTable)
-            
-            Log.info("Flushing iBeacon buffer with \(ibeaconBeaconBuffer.count)")
+            if total_count == 0 {
+                try saveResetAutoincrementEmptyTable(table: CCLocationTables.kIBeaconMessagesTable)
+            }
             
             guard sqlite3_exec(dbPointer, constants.kBeginImmediateTransactionCommand, nil, nil, nil) == SQLITE_OK else  {
                 throw SQLiteError.Exec(message: errorMessage)
@@ -110,9 +110,9 @@ extension SQLiteDatabase {
             
             let total_count = try count(table: CCLocationTables.kEddystoneBeaconMessagesTable)
             
-            Log.info("Flushing eddystone beacon buffer with \(eddystoneBeaconBuffer.count)")
-            
-            try saveResetAutoincrement(table: CCLocationTables.kEddystoneBeaconMessagesTable)
+            if total_count == 0 {
+                try saveResetAutoincrementEmptyTable(table: CCLocationTables.kEddystoneBeaconMessagesTable)
+            }
             
             guard sqlite3_exec(dbPointer, constants.kBeginImmediateTransactionCommand, nil, nil, nil) == SQLITE_OK else  {
                 throw SQLiteError.Exec(message: errorMessage)
@@ -176,7 +176,7 @@ extension SQLiteDatabase {
     
     func insertMessage(ccMessage: CCMessage) throws {
         messagesBuffer.append(ccMessage)
-        Log.verbose("DB: insertMessage: \(ccMessage.observation.count) \(ccMessage.observation.hexEncodedString())")
+        Log.verbose("DB: Insert \(ccMessage.observation.count) messages in the buffer")
     }
     
     func insertBundledMessages() throws {
@@ -187,7 +187,9 @@ extension SQLiteDatabase {
             
             var total_count = try count(table: CCLocationTables.kMessagesTable)
             
-            try saveResetAutoincrement(table: CCLocationTables.kMessagesTable)
+            if total_count == 0 {
+                try saveResetAutoincrementEmptyTable(table: CCLocationTables.kMessagesTable)
+            }
             
             guard sqlite3_exec(dbPointer, constants.kBeginImmediateTransactionCommand, nil, nil, nil) == SQLITE_OK else  {
                 throw SQLiteError.Exec(message: errorMessage)
@@ -213,6 +215,8 @@ extension SQLiteDatabase {
                 }
             }
             
+            lastCountForMessagesTable += messagesBuffer.count
+            
             total_count = try count(table: CCLocationTables.kMessagesTable)
             
             if total_count >= CCLocationConstants.kMaxQueueSize {
@@ -234,6 +238,12 @@ extension SQLiteDatabase {
                 guard sqlite3_step(deleteStatement) == SQLITE_DONE else {
                     Log.warning(constants.kFailedDeleteMessage)
                     throw SQLiteError.Step(message: errorMessage)
+                }
+                
+                if lastCountForMessagesTable >= deleteDiff {
+                    lastCountForMessagesTable -= deleteDiff
+                } else {
+                    areMessagesCounted = false
                 }
             }
             

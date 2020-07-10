@@ -19,11 +19,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
     CCLocation.sharedInstance.delegate = self;
-    
-    [CCLocation.sharedInstance startWithApiKey:@"CC_APP_KEY" urlString:NULL];
     
     double delayInSeconds = 3.0;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
@@ -53,6 +50,7 @@
     NSString *headingOffsetString = [[NSNumber numberWithDouble:location.headingOffSet] stringValue];
     NSString *errorString = [[NSNumber numberWithDouble:location.error] stringValue];
     NSString *timestampString = [[NSNumber numberWithDouble:location.timestamp] stringValue];
+    NSString *floorString = [[NSNumber numberWithDouble:location.floor] stringValue];
     
     NSDictionary *locationResponseDicstionary = [NSDictionary dictionaryWithObjectsAndKeys:
                                                  @"latitude", latitudeString,
@@ -60,7 +58,9 @@
                                                  @"headingOffset",headingOffsetString,
                                                  @"error", errorString,
                                                  @"timestamp", timestampString,
+                                                 @"floor", floorString,
                                                  nil];
+    
     NSLog(@"CC Delegate: didReceiveCCLocation %@ dictionary %@", location, locationResponseDicstionary);
 }
 
